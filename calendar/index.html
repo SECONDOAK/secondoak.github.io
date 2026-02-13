@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalender — Skriv ut</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='20' width='80' height='70' rx='8' fill='%232563eb'/><rect x='10' y='20' width='80' height='20' rx='8' fill='%231e3a5f'/><rect x='10' y='32' width='80' height='58' rx='0' fill='%232563eb'/><text x='50' y='72' text-anchor='middle' font-size='36' font-weight='bold' fill='white'>31</text><rect x='30' y='10' width='6' height='18' rx='3' fill='%231e3a5f'/><rect x='64' y='10' width='6' height='18' rx='3' fill='%231e3a5f'/></svg>">
+</head>
+<body class="paper-a4 orientation-portrait">
+  <div class="app-layout">
+
+    <!-- SIDEBAR: Hidden during print -->
+    <aside class="sidebar no-print" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="app-title">Kalender</h1>
+      </div>
+
+      <!-- Navigation Section -->
+      <section class="sidebar-section">
+        <h2>Navigation</h2>
+        <div class="nav-controls">
+          <button id="prev-btn" class="nav-btn" aria-label="Föregående">&larr;</button>
+          <select id="month-select"></select>
+          <select id="year-select"></select>
+          <button id="next-btn" class="nav-btn" aria-label="Nästa">&rarr;</button>
+        </div>
+        <div class="view-toggle">
+          <button id="month-view-btn" class="view-btn active">Månad</button>
+          <button id="week-view-btn" class="view-btn">Vecka</button>
+        </div>
+        <div class="week-selector hidden" id="week-selector">
+          <label for="week-select">Vecka:</label>
+          <select id="week-select"></select>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section class="sidebar-section">
+        <h2>Inställningar</h2>
+
+        <div class="setting-row">
+          <label for="lang-select">Språk</label>
+          <select id="lang-select">
+            <option value="sv" selected>Svenska</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="week-start-select">Veckan börjar</label>
+          <select id="week-start-select">
+            <option value="1" selected>Måndag</option>
+            <option value="0">Söndag</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Customization Section -->
+      <section class="sidebar-section">
+        <h2>Utseende</h2>
+
+        <div class="setting-row">
+          <label for="theme-select">Tema</label>
+          <select id="theme-select">
+            <option value="light">Ljus</option>
+            <option value="dark">Mörk</option>
+            <option value="pastel">Pastell</option>
+            <option value="classic">Klassisk</option>
+            <option value="mono">Monokrom</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="paper-select">Pappersstorlek</label>
+          <select id="paper-select">
+            <option value="a4" selected>A4</option>
+            <option value="letter">Letter</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="orientation-select">Layout</label>
+          <select id="orientation-select">
+            <option value="portrait">Stående</option>
+            <option value="landscape">Liggande</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="font-size-slider">Textstorlek</label>
+          <div class="slider-row">
+            <input type="range" id="font-size-slider" min="10" max="20" value="14" step="1">
+            <span id="font-size-value">14px</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="corner-radius-slider">Rundade hörn</label>
+          <div class="slider-row">
+            <input type="range" id="corner-radius-slider" min="0" max="16" value="4" step="1">
+            <span id="corner-radius-value">4px</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="grid-style-select">Rutstil</label>
+          <select id="grid-style-select">
+            <option value="solid">Heldragna</option>
+            <option value="dashed">Streckade</option>
+            <option value="dotted">Prickade</option>
+            <option value="none">Inga linjer</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Print Preview Button -->
+      <section class="sidebar-section">
+        <button id="preview-btn" class="print-button">Förhandsgranska & Skriv ut</button>
+      </section>
+    </aside>
+
+    <!-- MAIN CONTENT: The printable calendar -->
+    <main class="calendar-content" id="calendar-content">
+
+      <!-- Calendar Header -->
+      <header class="calendar-header">
+        <h1 id="calendar-title"></h1>
+      </header>
+
+      <!-- Month View -->
+      <div class="month-view" id="month-view">
+        <div class="weekday-headers" id="weekday-headers"></div>
+        <div class="month-grid" id="month-grid"></div>
+      </div>
+
+      <!-- Week View -->
+      <div class="week-view hidden" id="week-view">
+        <div class="week-grid" id="week-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Event Modal -->
+  <dialog id="event-modal" class="event-modal no-print">
+    <form method="dialog" id="event-form">
+      <h3 id="modal-title">Lägg till händelse</h3>
+      <p id="modal-date-display"></p>
+      <textarea id="event-text" rows="4" placeholder="Skriv händelse..."></textarea>
+      <div class="modal-actions">
+        <button type="button" id="delete-event-btn" class="btn-danger hidden">Ta bort</button>
+        <div class="modal-actions-right">
+          <button type="button" id="cancel-event-btn" class="btn-secondary">Avbryt</button>
+          <button type="button" id="save-event-btn" class="btn-primary">Spara</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
