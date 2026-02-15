@@ -90,6 +90,11 @@
     .hero-title .line {
       display: block;
       overflow: hidden;
+      transition: overflow 0s 1.4s;
+    }
+
+    .hero-title.scroll-ready .line {
+      overflow: visible;
     }
 
     .hero-title .line span {
@@ -447,7 +452,7 @@
       <span class="line"><span>SECOND</span></span>
       <span class="line"><span>OAK</span></span>
     </h1>
-    <p class="hero-sub" data-i18n="heroSub">Produktdesign &amp; Digitala Verktyg</p>
+    <p class="hero-sub" data-i18n="heroSub">Small Studio. Sharp Work.</p>
     <div class="scroll-indicator">
       <span data-i18n="scroll">Scrolla</span>
       <div class="scroll-line"></div>
@@ -531,7 +536,7 @@
   <script>
     const translations = {
       sv: {
-        heroSub: 'Produktdesign & Digitala Verktyg',
+        heroSub: 'Small Studio. Sharp Work.',
         scroll: 'Scrolla',
         aboutLabel: 'OM OSS',
         aboutText: '<strong>Second Oak</strong> hj\u00e4lper f\u00f6retag att bygga digitala produkter som anv\u00e4ndarna faktiskt vill anv\u00e4nda. Vi arbetar med <strong>produktdesign</strong>, <strong>UX</strong> och <strong>UI</strong> genom hela processen \u2014 fr\u00e5n tidig id\u00e9 till polerad slutprodukt.',
@@ -548,7 +553,7 @@
         project3Desc: 'Utforska och j\u00e4mf\u00f6r historisk v\u00e4derdata \u2014 se hur v\u00e4dret sett ut genom \u00e5ren.',
       },
       en: {
-        heroSub: 'Product Design & Digital Tools',
+        heroSub: 'Small Studio. Sharp Work.',
         scroll: 'Scroll',
         aboutLabel: 'ABOUT US',
         aboutText: '<strong>Second Oak</strong> helps companies build digital products that users actually want to use. We work with <strong>product design</strong>, <strong>UX</strong> and <strong>UI</strong> throughout the entire process \u2014 from early idea to polished end product.',
@@ -614,13 +619,26 @@
       observer.observe(el);
     });
 
-    // Parallax hero on scroll
+    // Parallax hero on scroll — SECOND slides left, OAK slides right
     const heroTitle = document.querySelector('.hero-title');
+    const lineSecond = document.querySelector('.hero-title .line:nth-child(1) span');
+    const lineOak = document.querySelector('.hero-title .line:nth-child(2) span');
+    const heroSub = document.querySelector('.hero-sub');
     const scrollInd = document.querySelector('.scroll-indicator');
+    let introReady = false;
+    setTimeout(() => {
+      introReady = true;
+      heroTitle.classList.add('scroll-ready');
+    }, 1400);
     window.addEventListener('scroll', () => {
+      if (!introReady) return;
       const y = window.scrollY;
-      heroTitle.style.transform = `translateY(${y * 0.3}px)`;
-      heroTitle.style.opacity = 1 - y / 600;
+      const fade = Math.max(0, 1 - y / 500);
+      heroTitle.style.opacity = fade;
+      lineSecond.style.transform = `translateX(${-y * 0.8}px)`;
+      lineOak.style.transform = `translateX(${y * 0.8}px)`;
+      heroSub.style.transform = `translateY(${-y * 0.3}px)`;
+      heroSub.style.opacity = fade;
       scrollInd.style.opacity = Math.max(0, 1 - y / 200);
     });
   </script>
