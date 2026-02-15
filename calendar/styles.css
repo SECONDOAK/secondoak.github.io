@@ -321,6 +321,23 @@ body.sidebar-open .sidebar-overlay {
   padding-bottom: 0;
 }
 
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.sidebar-footer a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.sidebar-footer a:hover {
+  text-decoration: underline;
+}
+
 .sidebar-section h2 {
   font-size: 0.75rem;
   font-weight: 600;
