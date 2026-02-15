@@ -735,10 +735,11 @@
       heroSub.style.opacity = fade;
       const scrollFade = Math.max(0, 1 - y / 80);
       scrollInd.style.opacity = scrollFade;
+      scrollInd.style.transform = `translateY(${-y * 1.5}px)`;
       if (scrollFade === 0) scrollInd.style.visibility = 'hidden';
       else scrollInd.style.visibility = 'visible';
       // Pull content up to fill the gap left by disappearing hero
-      const pull = Math.min(y * 0.55, 450);
+      const pull = Math.min(y * 0.7, 500);
       aboutSection.style.transform = `translateY(${-pull}px)`;
       divider.style.transform = `translateY(${-pull}px)`;
       projectsSection.style.transform = `translateY(${-pull}px)`;
