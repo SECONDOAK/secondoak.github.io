@@ -276,6 +276,10 @@
       animation-delay: 0.15s;
     }
 
+    .project-card:nth-child(3).visible {
+      animation-delay: 0.3s;
+    }
+
     .project-card:hover {
       background: var(--card-hover);
       box-shadow: 0 8px 30px rgba(0,0,0,0.06);
@@ -486,15 +490,32 @@
         </div>
       </a>
 
-      <a href="/weather/" class="project-card" data-animate>
+      <a href="/koordinator/" class="project-card" data-animate>
         <div class="card-top">
           <span class="project-number">02</span>
           <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7V17"/>
           </svg>
         </div>
-        <div class="project-name" data-i18n="project2Name">Historical Weather</div>
-        <p class="project-desc" data-i18n="project2Desc">J&auml;mf&ouml;r historisk v&auml;derdata mellan platser och tidsperioder med interaktiva grafer.</p>
+        <div class="project-name" data-i18n="project2Name">Koordinator</div>
+        <p class="project-desc" data-i18n="project2Desc">Konvertera och s&ouml;k koordinater mellan SWEREF99, RT90 och WGS84 med karta och AI-st&ouml;d.</p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Leaflet</span>
+          <span class="tag">Gemini AI</span>
+        </div>
+      </a>
+
+      <a href="/weather/" class="project-card" data-animate>
+        <div class="card-top">
+          <span class="project-number">03</span>
+          <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+          </svg>
+        </div>
+        <div class="project-name" data-i18n="project3Name">Historical Weather</div>
+        <p class="project-desc" data-i18n="project3Desc">J&auml;mf&ouml;r historisk v&auml;derdata mellan platser och tidsperioder med interaktiva grafer.</p>
         <div class="project-tags">
           <span class="tag">React</span>
           <span class="tag">TypeScript</span>
@@ -521,8 +542,10 @@
         projectsLabel: 'PROJEKT',
         project1Name: 'Printable Calendar',
         project1Desc: 'Utskriftsv\u00e4nlig kalender med anpassningsbart utseende, teman och vecko- samt m\u00e5nadsvy.',
-        project2Name: 'Historical Weather',
-        project2Desc: 'J\u00e4mf\u00f6r historisk v\u00e4derdata mellan platser och tidsperioder med interaktiva grafer.',
+        project2Name: 'Koordinator',
+        project2Desc: 'Konvertera och s\u00f6k koordinater mellan SWEREF99, RT90 och WGS84 med karta och AI-st\u00f6d.',
+        project3Name: 'Historical Weather',
+        project3Desc: 'J\u00e4mf\u00f6r historisk v\u00e4derdata mellan platser och tidsperioder med interaktiva grafer.',
       },
       en: {
         heroSub: 'Product Design & Digital Tools',
@@ -536,8 +559,10 @@
         projectsLabel: 'PROJECTS',
         project1Name: 'Printable Calendar',
         project1Desc: 'A printable calendar with customizable themes, layouts and both weekly and monthly views.',
-        project2Name: 'Historical Weather',
-        project2Desc: 'Compare historical weather data across locations and time periods with interactive charts.',
+        project2Name: 'Koordinator',
+        project2Desc: 'Convert and search coordinates between SWEREF99, RT90 and WGS84 with map and AI support.',
+        project3Name: 'Historical Weather',
+        project3Desc: 'Compare historical weather data across locations and time periods with interactive charts.',
       },
     };
 
