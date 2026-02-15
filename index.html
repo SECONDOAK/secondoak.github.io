@@ -67,7 +67,7 @@
 
     /* ---- HERO ---- */
     .hero {
-      min-height: 100vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -164,7 +164,7 @@
 
     /* ---- ABOUT ---- */
     .about-section {
-      padding: 8rem 2rem;
+      padding: 5rem 2rem;
       max-width: 700px;
       margin: 0 auto;
     }
@@ -594,6 +594,7 @@
     };
 
     let currentLang = localStorage.getItem('so_lang') || 'sv';
+    let aboutRevealed = false;
 
     function setLang(lang) {
       currentLang = lang;
@@ -612,8 +613,10 @@
             el.innerHTML = t[key];
             if (typeof wrapWords === 'function') {
               wrapWords(el);
-              // If already revealed, show all words immediately
-              el.querySelectorAll('.word').forEach(w => w.classList.add('revealed'));
+              // If about section already animated, show words immediately
+              if (aboutRevealed) {
+                el.querySelectorAll('.word').forEach(w => w.classList.add('revealed'));
+              }
             }
           } else {
             el.textContent = t[key];
@@ -665,7 +668,6 @@
     const aboutText = document.querySelector('.about-text');
     const aboutLabel = document.querySelector('.about-label');
     const serviceItems = document.querySelectorAll('.service-item');
-    wrapWords(aboutText);
 
     const aboutObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -685,6 +687,7 @@
             setTimeout(() => item.classList.add('revealed'), textDone + 100 + i * 80);
           });
 
+          aboutRevealed = true;
           aboutObserver.unobserve(entry.target);
         }
       });
@@ -722,7 +725,8 @@
       lineOak.style.transform = `translateX(${y * 0.8}px)`;
       heroSub.style.transform = `translateY(${-y * 0.3}px)`;
       heroSub.style.opacity = fade;
-      scrollInd.style.opacity = Math.max(0, 1 - y / 200);
+      scrollInd.style.transform = `translateY(${-y * 0.6}px)`;
+      scrollInd.style.opacity = Math.max(0, 1 - y / 150);
     });
   </script>
 </body>
