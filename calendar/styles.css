@@ -318,7 +318,6 @@ body.sidebar-open .sidebar-overlay {
 
 .sidebar-section:last-child {
   border-bottom: none;
-  margin-top: auto;
   padding-bottom: 0;
 }
 
