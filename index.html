@@ -629,6 +629,13 @@
     setTimeout(() => {
       introReady = true;
       heroTitle.classList.add('scroll-ready');
+      // Remove CSS animations so JS can control transforms
+      lineSecond.style.animation = 'none';
+      lineSecond.style.transform = 'translateX(0)';
+      lineOak.style.animation = 'none';
+      lineOak.style.transform = 'translateX(0)';
+      heroTitle.style.animation = 'none';
+      heroTitle.style.opacity = '1';
     }, 1400);
     window.addEventListener('scroll', () => {
       if (!introReady) return;
