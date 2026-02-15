@@ -701,6 +701,9 @@
     const lineOak = document.querySelector('.hero-title .line:nth-child(2) span');
     const heroSub = document.querySelector('.hero-sub');
     const scrollInd = document.querySelector('.scroll-indicator');
+    const aboutSection = document.querySelector('.about-section');
+    const divider = document.querySelector('.divider');
+    const projectsSection = document.querySelector('.projects-section');
     let introReady = false;
     setTimeout(() => {
       introReady = true;
@@ -720,6 +723,7 @@
       if (!introReady) return;
       const y = window.scrollY;
       const fade = Math.max(0, 1 - y / 500);
+      // Hero elements
       heroTitle.style.opacity = fade;
       lineSecond.style.transform = `translateX(${-y * 0.8}px)`;
       lineOak.style.transform = `translateX(${y * 0.8}px)`;
@@ -727,6 +731,11 @@
       heroSub.style.opacity = fade;
       scrollInd.style.transform = `translateY(${-y * 0.6}px)`;
       scrollInd.style.opacity = Math.max(0, 1 - y / 150);
+      // Pull content up to fill the gap left by disappearing hero
+      const pull = Math.min(y * 0.35, 300);
+      aboutSection.style.transform = `translateY(${-pull}px)`;
+      divider.style.transform = `translateY(${-pull}px)`;
+      projectsSection.style.transform = `translateY(${-pull}px)`;
     });
   </script>
 </body>
