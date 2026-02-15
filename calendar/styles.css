@@ -163,12 +163,106 @@ body {
 }
 
 /* =============================================
+   NAVBAR
+   ============================================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: var(--color-sidebar-bg);
+  border-bottom: 1px solid var(--color-sidebar-border);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 20;
+  gap: 0.75rem;
+}
+
+.navbar-menu-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 8px;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: 1.3rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.navbar-menu-btn:hover {
+  background: var(--color-primary-light);
+}
+
+.navbar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.navbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: 8px;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.navbar-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.navbar-btn svg {
+  flex-shrink: 0;
+}
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 52px;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 14;
+}
+
+body.sidebar-open .sidebar-overlay {
+  display: block;
+}
+
+/* =============================================
    APP LAYOUT
    ============================================= */
 
 .app-layout {
   display: flex;
   min-height: 100vh;
+  padding-top: 52px;
 }
 
 /* =============================================
@@ -181,14 +275,15 @@ body {
   border-right: 1px solid var(--color-sidebar-border);
   padding: 1.25rem;
   position: fixed;
-  top: 0;
+  top: 52px;
   bottom: 0;
   left: 0;
   overflow-y: auto;
-  z-index: 10;
+  z-index: 15;
   display: flex;
   flex-direction: column;
   gap: 0;
+  transition: transform 0.25s ease;
 }
 
 .sidebar-header {
@@ -938,12 +1033,175 @@ body.paper-letter.orientation-landscape .week-view {
 }
 
 /* =============================================
+   MOBILE RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+  /* Show hamburger menu */
+  .navbar-menu-btn {
+    display: flex;
+  }
+
+  /* Hide navbar button labels on small screens */
+  .navbar-btn-label {
+    display: none;
+  }
+
+  .navbar-btn {
+    padding: 0.5rem;
+  }
+
+  /* Hide sidebar title (shown in navbar instead) */
+  .sidebar-header {
+    display: none;
+  }
+
+  /* Sidebar slides in from left */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 85vw;
+    max-width: 320px;
+    box-shadow: none;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Calendar content takes full width */
+  .calendar-content {
+    margin-left: 0;
+    padding: 1rem 0.5rem;
+  }
+
+  /* Calendar header smaller */
+  .calendar-header h1 {
+    font-size: 1.3rem;
+  }
+
+  /* Month grid: smaller cells */
+  .month-grid {
+    grid-template-rows: repeat(6, minmax(60px, 1fr));
+  }
+
+  .day-cell {
+    padding: 0.2rem 0.3rem;
+  }
+
+  .day-number {
+    font-size: 0.8em;
+  }
+
+  .event-item {
+    font-size: 0.7em;
+    padding: 0.05rem 0.25rem;
+  }
+
+  /* Weekday headers smaller */
+  .weekday-cell {
+    padding: 0.4rem 0.2rem;
+    font-size: 0.7em;
+  }
+
+  /* Week view: time-label smalare */
+  .week-grid {
+    grid-template-columns: 45px repeat(7, 1fr);
+  }
+
+  .time-label {
+    font-size: 0.65em;
+    padding: 0.2rem 0.2rem;
+  }
+
+  .time-slot {
+    padding: 0.1rem 0.15rem;
+    min-height: 30px;
+  }
+
+  .week-day-header {
+    font-size: 0.65em;
+    padding: 0.3rem 0.15rem;
+  }
+
+  /* Event modal */
+  .event-modal {
+    width: 95%;
+    max-width: 360px;
+  }
+
+  /* Print preview */
+  .print-preview-container {
+    max-width: 100%;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+
+  .print-preview-overlay {
+    padding: 0;
+  }
+
+  .print-preview-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .print-preview-actions {
+    flex-wrap: wrap;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
+
+  .month-grid {
+    grid-template-rows: repeat(6, minmax(50px, 1fr));
+  }
+
+  .day-cell {
+    padding: 0.15rem 0.2rem;
+  }
+
+  .day-number {
+    font-size: 0.75em;
+    min-width: 1.5em;
+    height: 1.5em;
+  }
+
+  .event-item {
+    font-size: 0.65em;
+  }
+
+  .week-grid {
+    grid-template-columns: 38px repeat(7, 1fr);
+  }
+
+  .time-label {
+    font-size: 0.6em;
+  }
+
+  .week-day-header {
+    font-size: 0.6em;
+  }
+}
+
+/* =============================================
    PRINT STYLES
    ============================================= */
 
 @media print {
   .no-print,
+  .navbar,
   .sidebar,
+  .sidebar-overlay,
   .print-preview-overlay {
     display: none !important;
   }
@@ -964,6 +1222,7 @@ body.paper-letter.orientation-landscape .week-view {
     flex-direction: column;
     height: 100vh;
     min-height: 100vh;
+    padding-top: 0;
   }
 
   .calendar-content {

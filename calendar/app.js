@@ -59,6 +59,8 @@
       gridNone: 'Inga linjer',
       previewTitle: 'Förhandsgranskning',
       previewAndPrint: 'Förhandsgranska & Skriv ut',
+      preview: 'Förhandsgranska',
+      printDirect: 'Skriv ut',
     },
     en: {
       months: ['January', 'February', 'March', 'April', 'May', 'June',
@@ -101,6 +103,8 @@
       gridNone: 'None',
       previewTitle: 'Print Preview',
       previewAndPrint: 'Preview & Print',
+      preview: 'Preview',
+      printDirect: 'Print',
     },
   };
 
@@ -801,6 +805,7 @@
     },
 
     open(key, eventIndex) {
+      SidebarToggle.close();
       this._currentKey = key;
       this._currentIndex = eventIndex;
 
@@ -1129,6 +1134,16 @@
       // Week selector label
       const weekLabel = document.querySelector('.week-selector label');
       if (weekLabel) weekLabel.textContent = i18n.t('weekLabel') + ':';
+
+      // Navbar buttons
+      const navPreviewLabel = document.getElementById('navbar-preview-label');
+      if (navPreviewLabel) navPreviewLabel.textContent = i18n.t('preview');
+      const navPrintLabel = document.getElementById('navbar-print-label');
+      if (navPrintLabel) navPrintLabel.textContent = i18n.t('printDirect');
+
+      // Navbar title
+      const navTitle = document.querySelector('.navbar-title');
+      if (navTitle) navTitle.textContent = i18n.t('appTitle') || 'Kalender';
     },
   };
 
@@ -1136,15 +1151,54 @@
   // SECTION 11: INITIALIZATION
   // =============================================
 
+  // =============================================
+  // SECTION 11B: SIDEBAR TOGGLE CONTROLLER
+  // =============================================
+
+  const SidebarToggle = {
+    init() {
+      const menuBtn = document.getElementById('menu-toggle-btn');
+      const overlay = document.getElementById('sidebar-overlay');
+
+      menuBtn.addEventListener('click', () => this.toggle());
+      overlay.addEventListener('click', () => this.close());
+    },
+
+    toggle() {
+      document.body.classList.toggle('sidebar-open');
+    },
+
+    open() {
+      document.body.classList.add('sidebar-open');
+    },
+
+    close() {
+      document.body.classList.remove('sidebar-open');
+    },
+  };
+
   function init() {
     EventStore.load();
     Customizer.init();
     Customizer.loadSettings();
     Navigation.init();
     ModalController.init();
+    SidebarToggle.init();
 
+    // Sidebar preview button
     document.getElementById('preview-btn').addEventListener('click', () => {
+      SidebarToggle.close();
       PrintController.openPreview();
+    });
+
+    // Navbar preview button
+    document.getElementById('navbar-preview-btn').addEventListener('click', () => {
+      PrintController.openPreview();
+    });
+
+    // Navbar print button (direct print)
+    document.getElementById('navbar-print-btn').addEventListener('click', () => {
+      PrintController.print();
     });
 
     // Ensure paper/orientation classes
