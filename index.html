@@ -167,12 +167,6 @@
       padding: 8rem 2rem;
       max-width: 700px;
       margin: 0 auto;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    .about-section.visible {
-      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .about-label {
@@ -182,6 +176,14 @@
       text-transform: uppercase;
       color: var(--text-muted);
       margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .about-label.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .about-text {
@@ -194,6 +196,18 @@
 
     .about-text strong {
       font-weight: 700;
+    }
+
+    .about-text .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .about-text .word.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .about-services {
@@ -211,6 +225,14 @@
       color: var(--text-muted);
       position: relative;
       padding-left: 1rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .service-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .service-item::before {
@@ -459,7 +481,7 @@
     </div>
   </section>
 
-  <section class="about-section" data-animate>
+  <section class="about-section">
     <p class="about-label" data-i18n="aboutLabel">OM OSS</p>
     <p class="about-text" data-i18n="aboutText">
       <strong>Second Oak</strong> hj&auml;lper f&ouml;retag att bygga digitala produkter som anv&auml;ndarna faktiskt vill anv&auml;nda. Vi arbetar med <strong>produktdesign</strong>, <strong>UX</strong> och <strong>UI</strong> genom hela processen &mdash; fr&aring;n tidig id&eacute; till polerad slutprodukt.
@@ -588,6 +610,11 @@
         if (t[key]) {
           if (key === 'aboutText') {
             el.innerHTML = t[key];
+            if (typeof wrapWords === 'function') {
+              wrapWords(el);
+              // If already revealed, show all words immediately
+              el.querySelectorAll('.word').forEach(w => w.classList.add('revealed'));
+            }
           } else {
             el.textContent = t[key];
           }
@@ -618,6 +645,52 @@
     document.querySelectorAll('[data-animate]').forEach((el) => {
       observer.observe(el);
     });
+
+    // Word-by-word reveal for about section
+    function wrapWords(el) {
+      const html = el.innerHTML;
+      // Split on word boundaries while preserving <strong> tags
+      const wrapped = html.replace(/(<strong>|<\/strong>)/g, '\u0000$1\u0000')
+        .split('\u0000')
+        .map(part => {
+          if (part.startsWith('<')) return part; // HTML tags pass through
+          return part.split(/(\s+)/).map(token => {
+            if (!token.trim()) return token; // whitespace pass through
+            return `<span class="word">${token}</span>`;
+          }).join('');
+        }).join('');
+      el.innerHTML = wrapped;
+    }
+
+    const aboutText = document.querySelector('.about-text');
+    const aboutLabel = document.querySelector('.about-label');
+    const serviceItems = document.querySelectorAll('.service-item');
+    wrapWords(aboutText);
+
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 1. Reveal label first
+          aboutLabel.classList.add('revealed');
+
+          // 2. Reveal words one by one
+          const words = aboutText.querySelectorAll('.word');
+          words.forEach((word, i) => {
+            setTimeout(() => word.classList.add('revealed'), 200 + i * 30);
+          });
+
+          // 3. Reveal service items after text
+          const textDone = 200 + words.length * 30;
+          serviceItems.forEach((item, i) => {
+            setTimeout(() => item.classList.add('revealed'), textDone + 100 + i * 80);
+          });
+
+          aboutObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    aboutObserver.observe(document.querySelector('.about-section'));
 
     // Parallax hero on scroll — SECOND slides left, OAK slides right
     const heroTitle = document.querySelector('.hero-title');
