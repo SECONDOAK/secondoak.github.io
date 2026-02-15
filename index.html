@@ -107,11 +107,6 @@
       background: #0a0a0a;
     }
 
-    .hero-spacer {
-      height: 20vh;
-      position: relative;
-    }
-
     .hero-title {
       font-size: clamp(4.5rem, 14vw, 9rem);
       font-weight: 900;
@@ -614,7 +609,6 @@
       <div class="scroll-line"></div>
     </div>
   </section>
-  <div class="hero-spacer"></div>
 
   <section class="about-section">
     <div class="about-inner">
@@ -805,7 +799,6 @@
     const scrollInd = document.querySelector('.scroll-indicator');
     const aboutSection = document.querySelector('.about-section');
     const projectsSection = document.getElementById('projectsSection');
-    const heroSpacer = document.querySelector('.hero-spacer');
     let introReady = false;
 
     // Track states to avoid redundant toggles
@@ -880,10 +873,9 @@
       if (!introReady) return;
       const y = window.scrollY;
       const winH = window.innerHeight;
-      const heroSpacerRect = heroSpacer.getBoundingClientRect();
 
       // ---- HERO: scroll-driven parallax fade ----
-      const heroFade = clamp01(heroSpacerRect.bottom / (winH * 0.5));
+      const heroFade = clamp01(1 - y / (winH * 0.4));
       heroTitle.style.opacity = heroFade;
       lineSecond.style.transform = `translateX(${-y * 0.8}px)`;
       lineOak.style.transform = `translateX(${y * 0.8}px)`;
