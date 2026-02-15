@@ -28,6 +28,43 @@
       overflow-x: hidden;
     }
 
+    /* ---- NAV ---- */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 2rem;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--card-border);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+
+    .lang-btn {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
     /* ---- HERO ---- */
     .hero {
       min-height: 100vh;
@@ -118,6 +155,76 @@
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- ABOUT ---- */
+    .about-section {
+      padding: 8rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .about-section.visible {
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .about-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .about-text {
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 300;
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .about-text strong {
+      font-weight: 700;
+    }
+
+    .about-services {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .service-item {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .service-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .divider {
+      max-width: 700px;
+      margin: 0 auto;
+      height: 1px;
+      background: var(--card-border);
     }
 
     /* ---- PROJECTS ---- */
@@ -309,6 +416,14 @@
       .projects-section {
         padding: 4rem 1rem 6rem;
       }
+
+      .about-section {
+        padding: 5rem 1.5rem;
+      }
+
+      .about-services {
+        gap: 1rem;
+      }
     }
   </style>
 </head>
@@ -316,20 +431,42 @@
   <div class="grain"></div>
   <div class="cursor-glow" id="cursorGlow"></div>
 
+  <nav class="top-nav">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="sv" onclick="setLang('sv')">SV</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </nav>
+
   <section class="hero">
     <h1 class="hero-title">
       <span class="line"><span>SECOND</span></span>
       <span class="line"><span>OAK</span></span>
     </h1>
-    <p class="hero-sub">Digital Tools & Experiments</p>
+    <p class="hero-sub" data-i18n="heroSub">Produktdesign &amp; Digitala Verktyg</p>
     <div class="scroll-indicator">
-      <span>Scroll</span>
+      <span data-i18n="scroll">Scrolla</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
+  <section class="about-section" data-animate>
+    <p class="about-label" data-i18n="aboutLabel">OM OSS</p>
+    <p class="about-text" data-i18n="aboutText">
+      <strong>Second Oak</strong> &auml;r ett designf&ouml;retag som skapar digitala produkter med fokus p&aring; anv&auml;ndarupplevelse. Vi arbetar i sk&auml;rningspunkten mellan <strong>produktdesign</strong>, <strong>UX</strong> och <strong>UI</strong> &mdash; fr&aring;n id&eacute; och koncept till f&auml;rdig produkt.
+    </p>
+    <div class="about-services">
+      <span class="service-item" data-i18n="service1">Produktdesign</span>
+      <span class="service-item" data-i18n="service2">UX-design</span>
+      <span class="service-item" data-i18n="service3">UI-design</span>
+      <span class="service-item" data-i18n="service4">Prototyper</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <section class="projects-section">
-    <p class="section-label" data-animate>PROJEKT</p>
+    <p class="section-label" data-animate data-i18n="projectsLabel">PROJEKT</p>
 
     <div class="projects-grid">
       <a href="/calendar/" class="project-card" data-animate>
@@ -339,8 +476,8 @@
             <path d="M7 17L17 7M17 7H7M17 7V17"/>
           </svg>
         </div>
-        <div class="project-name">Kalender</div>
-        <p class="project-desc">Utskriftsv&auml;nlig kalender med anpassningsbart utseende, teman och vecko- samt m&aring;nadsvy.</p>
+        <div class="project-name" data-i18n="project1Name">Kalender</div>
+        <p class="project-desc" data-i18n="project1Desc">Utskriftsv&auml;nlig kalender med anpassningsbart utseende, teman och vecko- samt m&aring;nadsvy.</p>
         <div class="project-tags">
           <span class="tag">HTML</span>
           <span class="tag">CSS</span>
@@ -356,8 +493,8 @@
             <path d="M7 17L17 7M17 7H7M17 7V17"/>
           </svg>
         </div>
-        <div class="project-name">Historical Weather</div>
-        <p class="project-desc">J&auml;mf&ouml;r historisk v&auml;derdata mellan platser och tidsperioder med interaktiva grafer.</p>
+        <div class="project-name" data-i18n="project2Name">Historical Weather</div>
+        <p class="project-desc" data-i18n="project2Desc">J&auml;mf&ouml;r historisk v&auml;derdata mellan platser och tidsperioder med interaktiva grafer.</p>
         <div class="project-tags">
           <span class="tag">React</span>
           <span class="tag">TypeScript</span>
@@ -371,6 +508,66 @@
   <footer>&copy; 2026 SECOND OAK</footer>
 
   <script>
+    const translations = {
+      sv: {
+        heroSub: 'Produktdesign & Digitala Verktyg',
+        scroll: 'Scrolla',
+        aboutLabel: 'OM OSS',
+        aboutText: '<strong>Second Oak</strong> \u00e4r ett designf\u00f6retag som skapar digitala produkter med fokus p\u00e5 anv\u00e4ndarupplevelse. Vi arbetar i sk\u00e4rningspunkten mellan <strong>produktdesign</strong>, <strong>UX</strong> och <strong>UI</strong> \u2014 fr\u00e5n id\u00e9 och koncept till f\u00e4rdig produkt.',
+        service1: 'Produktdesign',
+        service2: 'UX-design',
+        service3: 'UI-design',
+        service4: 'Prototyper',
+        projectsLabel: 'PROJEKT',
+        project1Name: 'Kalender',
+        project1Desc: 'Utskriftsv\u00e4nlig kalender med anpassningsbart utseende, teman och vecko- samt m\u00e5nadsvy.',
+        project2Name: 'Historical Weather',
+        project2Desc: 'J\u00e4mf\u00f6r historisk v\u00e4derdata mellan platser och tidsperioder med interaktiva grafer.',
+      },
+      en: {
+        heroSub: 'Product Design & Digital Tools',
+        scroll: 'Scroll',
+        aboutLabel: 'ABOUT US',
+        aboutText: '<strong>Second Oak</strong> is a design company creating digital products with a focus on user experience. We work at the intersection of <strong>product design</strong>, <strong>UX</strong> and <strong>UI</strong> \u2014 from idea and concept to finished product.',
+        service1: 'Product Design',
+        service2: 'UX Design',
+        service3: 'UI Design',
+        service4: 'Prototyping',
+        projectsLabel: 'PROJECTS',
+        project1Name: 'Calendar',
+        project1Desc: 'A printable calendar with customizable themes, layouts and both weekly and monthly views.',
+        project2Name: 'Historical Weather',
+        project2Desc: 'Compare historical weather data across locations and time periods with interactive charts.',
+      },
+    };
+
+    let currentLang = localStorage.getItem('so_lang') || 'sv';
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('so_lang', lang);
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('.lang-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      const t = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.dataset.i18n;
+        if (t[key]) {
+          if (key === 'aboutText') {
+            el.innerHTML = t[key];
+          } else {
+            el.textContent = t[key];
+          }
+        }
+      });
+    }
+
+    // Init language
+    setLang(currentLang);
+
     // Cursor glow
     const glow = document.getElementById('cursorGlow');
     document.addEventListener('mousemove', (e) => {
@@ -393,12 +590,12 @@
     });
 
     // Parallax hero on scroll
-    const hero = document.querySelector('.hero-title');
+    const heroTitle = document.querySelector('.hero-title');
     const scrollInd = document.querySelector('.scroll-indicator');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
-      hero.style.transform = `translateY(${y * 0.3}px)`;
-      hero.style.opacity = 1 - y / 600;
+      heroTitle.style.transform = `translateY(${y * 0.3}px)`;
+      heroTitle.style.opacity = 1 - y / 600;
       scrollInd.style.opacity = Math.max(0, 1 - y / 200);
     });
   </script>
