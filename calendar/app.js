@@ -1141,9 +1141,9 @@
       const navPrintLabel = document.getElementById('navbar-print-label');
       if (navPrintLabel) navPrintLabel.textContent = i18n.t('printDirect');
 
-      // Navbar title
+      // Navbar title (always CALPRINT)
       const navTitle = document.querySelector('.navbar-title');
-      if (navTitle) navTitle.textContent = i18n.t('appTitle') || 'Kalender';
+      if (navTitle) navTitle.textContent = 'CALPRINT';
     },
   };
 

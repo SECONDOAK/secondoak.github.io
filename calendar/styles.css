@@ -1051,11 +1051,6 @@ body.paper-letter.orientation-landscape .week-view {
     padding: 0.5rem;
   }
 
-  /* Hide sidebar title (shown in navbar instead) */
-  .sidebar-header {
-    display: none;
-  }
-
   /* Sidebar slides in from left */
   .sidebar {
     transform: translateX(-100%);
