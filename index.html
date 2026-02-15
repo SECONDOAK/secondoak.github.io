@@ -729,10 +729,10 @@
       lineOak.style.transform = `translateX(${y * 0.8}px)`;
       heroSub.style.transform = `translateY(${-y * 0.3}px)`;
       heroSub.style.opacity = fade;
-      scrollInd.style.transform = `translateY(${-y * 0.6}px)`;
-      scrollInd.style.opacity = Math.max(0, 1 - y / 150);
+      scrollInd.style.transform = `translateY(${-y * 1.2}px)`;
+      scrollInd.style.opacity = Math.max(0, 1 - y / 100);
       // Pull content up to fill the gap left by disappearing hero
-      const pull = Math.min(y * 0.35, 300);
+      const pull = Math.min(y * 0.55, 450);
       aboutSection.style.transform = `translateY(${-pull}px)`;
       divider.style.transform = `translateY(${-pull}px)`;
       projectsSection.style.transform = `translateY(${-pull}px)`;
