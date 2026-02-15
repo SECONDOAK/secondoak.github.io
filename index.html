@@ -137,7 +137,7 @@
       opacity: 0;
       z-index: 10;
       pointer-events: none;
-      animation: fadeUp 0.6s ease 1.5s forwards;
+      animation: fadeUp 0.6s ease 1.2s forwards;
     }
 
     .scroll-indicator span {
@@ -720,9 +720,11 @@
       heroSub.style.animation = 'none';
       heroSub.style.opacity = '1';
       heroSub.style.transform = 'translateY(0)';
+    }, 1400);
+    setTimeout(() => {
       scrollInd.style.animation = 'none';
       scrollInd.style.opacity = '1';
-    }, 1400);
+    }, 1900);
     window.addEventListener('scroll', () => {
       if (!introReady) return;
       const y = window.scrollY;
