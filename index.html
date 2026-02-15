@@ -126,7 +126,7 @@
     }
 
     .scroll-indicator {
-      position: absolute;
+      position: fixed;
       bottom: 2.5rem;
       left: 0;
       right: 0;
@@ -135,6 +135,8 @@
       align-items: center;
       gap: 0.5rem;
       opacity: 0;
+      z-index: 10;
+      pointer-events: none;
       animation: fadeUp 0.6s ease 1.5s forwards;
     }
 
@@ -718,6 +720,8 @@
       heroSub.style.animation = 'none';
       heroSub.style.opacity = '1';
       heroSub.style.transform = 'translateY(0)';
+      scrollInd.style.animation = 'none';
+      scrollInd.style.opacity = '1';
     }, 1400);
     window.addEventListener('scroll', () => {
       if (!introReady) return;
@@ -729,8 +733,10 @@
       lineOak.style.transform = `translateX(${y * 0.8}px)`;
       heroSub.style.transform = `translateY(${-y * 0.3}px)`;
       heroSub.style.opacity = fade;
-      scrollInd.style.transform = `translateY(${-y * 1.2}px)`;
-      scrollInd.style.opacity = Math.max(0, 1 - y / 100);
+      const scrollFade = Math.max(0, 1 - y / 80);
+      scrollInd.style.opacity = scrollFade;
+      if (scrollFade === 0) scrollInd.style.visibility = 'hidden';
+      else scrollInd.style.visibility = 'visible';
       // Pull content up to fill the gap left by disappearing hero
       const pull = Math.min(y * 0.55, 450);
       aboutSection.style.transform = `translateY(${-pull}px)`;
