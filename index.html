@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { overflow-x: hidden; }
 
     :root {
       --bg: #fafafa;
@@ -97,6 +98,7 @@
       top: 0;
       z-index: 1;
       padding: 2rem;
+      overflow: hidden;
       background: var(--bg);
       transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -230,7 +232,7 @@
     }
 
     .about-spacer {
-      height: 60vh;
+      height: 80vh;
       position: relative;
     }
 
@@ -356,7 +358,7 @@
     .projects-section.visible .section-label {
       opacity: 1;
       transform: translateY(0);
-      transition-delay: 0.6s;
+      transition-delay: 0.4s;
     }
 
     .playground-desc {
@@ -375,7 +377,7 @@
     .projects-section.visible .playground-desc {
       opacity: 1;
       transform: translateY(0);
-      transition-delay: 0.85s;
+      transition-delay: 0.65s;
     }
 
     /* Neon grid background — behind cards */
@@ -924,7 +926,7 @@
         // Sequence: dark bg → section visible → cards staggered
         setTimeout(() => projectsSection.classList.add('visible'), 50);
         projectCards.forEach((card, i) => {
-          setTimeout(() => card.classList.add('visible'), 1100 + i * 150);
+          setTimeout(() => card.classList.add('visible'), 900 + i * 150);
         });
       } else if (!shouldShowPg && pgVisible) {
         pgVisible = false;
