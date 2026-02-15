@@ -356,7 +356,7 @@
     .projects-section.visible .section-label {
       opacity: 1;
       transform: translateY(0);
-      transition-delay: 0.1s;
+      transition-delay: 0.6s;
     }
 
     .playground-desc {
@@ -375,7 +375,7 @@
     .projects-section.visible .playground-desc {
       opacity: 1;
       transform: translateY(0);
-      transition-delay: 0.25s;
+      transition-delay: 0.85s;
     }
 
     /* Neon grid background — behind cards */
@@ -395,7 +395,15 @@
       background-size: 40px 40px;
       mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
       -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+      opacity: 0;
+      transition: opacity 1s ease 0.3s;
       animation: neonPulse 6s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    .projects-section.visible::before {
+      opacity: 1;
+      animation-play-state: running;
     }
 
     /* Neon glow accents */
@@ -433,15 +441,10 @@
     }
 
     .project-card.visible {
-      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .project-card:nth-child(2).visible {
-      animation-delay: 0.15s;
-    }
-
-    .project-card:nth-child(3).visible {
-      animation-delay: 0.3s;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .project-card:hover {
@@ -785,19 +788,8 @@
       glow.style.top = e.clientY + 'px';
     });
 
-    // Scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('[data-animate]').forEach((el) => {
-      observer.observe(el);
-    });
+    // Project cards — triggered by JS in scroll handler, not IntersectionObserver
+    const projectCards = document.querySelectorAll('.project-card[data-animate]');
 
     // Word-by-word reveal for about section
     function wrapWords(el) {
@@ -929,11 +921,15 @@
       if (shouldShowPg && !pgVisible) {
         pgVisible = true;
         document.body.classList.add('dark-mode');
-        // Small delay so dark bg lands first, then projects fade in
+        // Sequence: dark bg → section visible → cards staggered
         setTimeout(() => projectsSection.classList.add('visible'), 50);
+        projectCards.forEach((card, i) => {
+          setTimeout(() => card.classList.add('visible'), 1100 + i * 150);
+        });
       } else if (!shouldShowPg && pgVisible) {
         pgVisible = false;
         projectsSection.classList.remove('visible');
+        projectCards.forEach(card => card.classList.remove('visible'));
         document.body.classList.remove('dark-mode');
       }
     });
