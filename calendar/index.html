@@ -13,13 +13,9 @@
     <button class="navbar-menu-btn" id="menu-toggle-btn" aria-label="Meny">&#9776;</button>
     <span class="navbar-title">CALPRINT</span>
     <div class="navbar-actions">
-      <button class="navbar-btn" id="navbar-preview-btn" title="Förhandsgranska">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="navbar-btn-label" id="navbar-preview-label">Förhandsgranska</span>
-      </button>
-      <button class="navbar-btn" id="navbar-print-btn" title="Skriv ut">
+      <button class="navbar-btn navbar-btn-primary" id="navbar-preview-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        <span class="navbar-btn-label" id="navbar-print-label">Skriv ut</span>
+        <span class="navbar-btn-label" id="navbar-preview-label">Förhandsgranska & Skriv ut</span>
       </button>
     </div>
   </nav>
@@ -129,10 +125,6 @@
         </div>
       </section>
 
-      <!-- Print Preview Button (hidden on mobile, shown on desktop) -->
-      <section class="sidebar-section sidebar-print-section">
-        <button id="preview-btn" class="print-button">Förhandsgranska & Skriv ut</button>
-      </section>
     </aside>
 
     <!-- MAIN CONTENT: The printable calendar -->

@@ -1081,8 +1081,9 @@
       document.getElementById('month-view-btn').textContent = i18n.t('month');
       document.getElementById('week-view-btn').textContent = i18n.t('week');
 
-      // Update preview button
-      document.getElementById('preview-btn').textContent = i18n.t('previewAndPrint');
+      // Update preview button (navbar)
+      const navPreviewLabel = document.getElementById('navbar-preview-label');
+      if (navPreviewLabel) navPreviewLabel.textContent = i18n.t('previewAndPrint');
 
       // Update setting labels
       const langLabel = document.querySelector('label[for="lang-select"]');
@@ -1135,12 +1136,6 @@
       const weekLabel = document.querySelector('.week-selector label');
       if (weekLabel) weekLabel.textContent = i18n.t('weekLabel') + ':';
 
-      // Navbar buttons
-      const navPreviewLabel = document.getElementById('navbar-preview-label');
-      if (navPreviewLabel) navPreviewLabel.textContent = i18n.t('preview');
-      const navPrintLabel = document.getElementById('navbar-print-label');
-      if (navPrintLabel) navPrintLabel.textContent = i18n.t('printDirect');
-
       // Navbar title (always CALPRINT)
       const navTitle = document.querySelector('.navbar-title');
       if (navTitle) navTitle.textContent = 'CALPRINT';
@@ -1185,20 +1180,10 @@
     ModalController.init();
     SidebarToggle.init();
 
-    // Sidebar preview button
-    document.getElementById('preview-btn').addEventListener('click', () => {
+    // Navbar preview & print button
+    document.getElementById('navbar-preview-btn').addEventListener('click', () => {
       SidebarToggle.close();
       PrintController.openPreview();
-    });
-
-    // Navbar preview button
-    document.getElementById('navbar-preview-btn').addEventListener('click', () => {
-      PrintController.openPreview();
-    });
-
-    // Navbar print button (direct print)
-    document.getElementById('navbar-print-btn').addEventListener('click', () => {
-      PrintController.print();
     });
 
     // Ensure paper/orientation classes

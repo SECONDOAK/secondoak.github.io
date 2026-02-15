@@ -241,6 +241,18 @@ body {
   flex-shrink: 0;
 }
 
+.navbar-btn-primary {
+  background: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-btn-primary);
+}
+
+.navbar-btn-primary:hover {
+  background: var(--color-btn-primary);
+  border-color: var(--color-btn-primary);
+  opacity: 0.9;
+}
+
 /* Sidebar overlay for mobile */
 .sidebar-overlay {
   display: none;
