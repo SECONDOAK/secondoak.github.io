@@ -202,24 +202,16 @@
 
     /* ---- ABOUT ---- */
     .about-section {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
       z-index: 2;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 4rem 2rem;
       background: var(--bg);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .about-section.visible {
-      opacity: 1;
+      transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     body.dark-mode .about-section {
@@ -230,13 +222,6 @@
       max-width: 700px;
       width: 100%;
     }
-
-    .about-spacer {
-      height: 80vh;
-      position: relative;
-    }
-
-    /* playground-spacer no longer needed — playground is inside projects-section */
 
     .about-label {
       font-size: 0.7rem;
@@ -645,7 +630,6 @@
       </div>
     </div>
   </section>
-  <div class="about-spacer"></div>
 
   <section class="projects-section" id="projectsSection">
     <div class="projects-inner">
@@ -822,7 +806,6 @@
     const aboutSection = document.querySelector('.about-section');
     const projectsSection = document.getElementById('projectsSection');
     const heroSpacer = document.querySelector('.hero-spacer');
-    const aboutSpacer = document.querySelector('.about-spacer');
     let introReady = false;
 
     // Track states to avoid redundant toggles
@@ -879,12 +862,25 @@
       scrollInd.style.opacity = '1';
     }, 1900);
 
+    // ---- ABOUT: IntersectionObserver triggers word animation ----
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !aboutVisible) {
+          aboutVisible = true;
+          revealAboutWords();
+        } else if (!entry.isIntersecting && aboutVisible) {
+          aboutVisible = false;
+          hideAboutWords();
+        }
+      });
+    }, { threshold: 0.3 });
+    aboutObserver.observe(aboutSection);
+
     window.addEventListener('scroll', () => {
       if (!introReady) return;
       const y = window.scrollY;
       const winH = window.innerHeight;
       const heroSpacerRect = heroSpacer.getBoundingClientRect();
-      const aboutSpacerRect = aboutSpacer.getBoundingClientRect();
 
       // ---- HERO: scroll-driven parallax fade ----
       const heroFade = clamp01(heroSpacerRect.bottom / (winH * 0.5));
@@ -900,30 +896,14 @@
       scrollInd.style.transform = `translateY(${-y * 1.5}px)`;
       scrollInd.style.visibility = scrollFade === 0 ? 'hidden' : 'visible';
 
-      // ---- ABOUT: threshold toggle ----
-      // Show when hero-spacer bottom < 40% of viewport (hero mostly gone)
-      // Hide when about-spacer bottom < 40% of viewport (scrolled past about)
-      const shouldShowAbout = heroSpacerRect.bottom < winH * 0.4
-                           && aboutSpacerRect.bottom > winH * 0.4;
-
-      if (shouldShowAbout && !aboutVisible) {
-        aboutVisible = true;
-        aboutSection.classList.add('visible');
-        revealAboutWords();
-      } else if (!shouldShowAbout && aboutVisible) {
-        aboutVisible = false;
-        aboutSection.classList.remove('visible');
-        hideAboutWords();
-      }
-
       // ---- DARK MODE + PROJECTS: threshold toggle ----
-      // When about-spacer bottom < 30% of viewport — go dark, then show projects
-      const shouldShowPg = aboutSpacerRect.bottom < winH * 0.3;
+      // When projects section reaches the top of viewport
+      const pgRect = projectsSection.getBoundingClientRect();
+      const shouldShowPg = pgRect.top < winH * 0.5;
 
       if (shouldShowPg && !pgVisible) {
         pgVisible = true;
         document.body.classList.add('dark-mode');
-        // Sequence: dark bg → section visible → cards staggered
         setTimeout(() => projectsSection.classList.add('visible'), 50);
         projectCards.forEach((card, i) => {
           setTimeout(() => card.classList.add('visible'), 900 + i * 150);
