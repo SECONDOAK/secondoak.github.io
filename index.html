@@ -197,25 +197,16 @@
 
     /* ---- ABOUT ---- */
     .about-section {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
       z-index: 2;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 4rem 2rem;
       background: var(--bg);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                  background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .about-section.visible {
-      opacity: 1;
+      transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     body.dark-mode .about-section {
@@ -864,6 +855,20 @@
       scrollInd.style.opacity = '1';
     }, 1900);
 
+    // ---- ABOUT: reveal words when section is visible ----
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !aboutVisible) {
+          aboutVisible = true;
+          revealAboutWords();
+        } else if (!entry.isIntersecting && aboutVisible) {
+          aboutVisible = false;
+          hideAboutWords();
+        }
+      });
+    }, { threshold: 0.3 });
+    aboutObserver.observe(aboutSection);
+
     window.addEventListener('scroll', () => {
       if (!introReady) return;
       const y = window.scrollY;
@@ -883,21 +888,9 @@
       scrollInd.style.transform = `translateY(${-y * 1.5}px)`;
       scrollInd.style.visibility = scrollFade === 0 ? 'hidden' : 'visible';
 
-      // ---- ABOUT: show as soon as user starts scrolling ----
-      const shouldShowAbout = y > 30 && heroFade > 0.05;
-
-      if (shouldShowAbout && !aboutVisible) {
-        aboutVisible = true;
-        aboutSection.classList.add('visible');
-        revealAboutWords();
-      } else if (!shouldShowAbout && aboutVisible) {
-        aboutVisible = false;
-        aboutSection.classList.remove('visible');
-        hideAboutWords();
-      }
-
       // ---- DARK MODE + PROJECTS: threshold toggle ----
-      const shouldShowPg = heroFade <= 0.05;
+      const pgRect = projectsSection.getBoundingClientRect();
+      const shouldShowPg = pgRect.top < winH * 0.5;
 
       if (shouldShowPg && !pgVisible) {
         pgVisible = true;
