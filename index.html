@@ -572,6 +572,125 @@
       color: rgba(255,255,255,0.6);
     }
 
+    /* ---- CONTACT ---- */
+    .contact-section {
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      z-index: 3;
+      background: #0a0a0a;
+      color: #f0f0f0;
+    }
+
+    .contact-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .contact-label {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(0,255,136,0.7);
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-desc {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: #f0f0f0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 0;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: rgba(0,255,136,0.4);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .contact-form textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .contact-submit {
+      align-self: flex-start;
+      padding: 0.85rem 2.5rem;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #0a0a0a;
+      background: rgba(0,255,136,0.8);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.15s;
+    }
+
+    .contact-submit:hover {
+      background: rgba(0,255,136,1);
+    }
+
+    .contact-submit:active {
+      transform: scale(0.97);
+    }
+
+    .contact-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .contact-success {
+      padding: 1.25rem;
+      border: 1px solid rgba(0,255,136,0.3);
+      background: rgba(0,255,136,0.06);
+      color: rgba(0,255,136,0.9);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .contact-success.visible {
+      display: block;
+    }
+
+    .contact-error {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      display: none;
+    }
+
+    .contact-error.visible {
+      display: block;
+    }
+
     /* ---- FOOTER ---- */
     footer {
       padding: 3rem 2rem;
@@ -651,6 +770,15 @@
 
       .about-services {
         gap: 1rem;
+      }
+
+      .contact-section {
+        padding: 4rem 1rem 3rem;
+      }
+
+      .contact-submit {
+        width: 100%;
+        text-align: center;
       }
     }
   </style>
@@ -781,6 +909,20 @@
     </div>
   </section>
 
+  <section class="contact-section" id="contactSection">
+    <div class="contact-inner">
+      <p class="contact-label" data-i18n="contactLabel">KONTAKT</p>
+      <p class="contact-desc" data-i18n="contactDesc">Har du en id&eacute; eller ett projekt du vill diskutera? Skicka ett meddelande s&aring; h&ouml;r vi av oss.</p>
+      <form class="contact-form" id="contactForm">
+        <input type="email" name="email" required placeholder="Din e-postadress" data-i18n-placeholder="contactEmailPlaceholder" autocomplete="email" />
+        <textarea name="message" required placeholder="Ditt meddelande..." data-i18n-placeholder="contactMsgPlaceholder"></textarea>
+        <button type="submit" class="contact-submit" id="contactSubmitBtn" data-i18n="contactSend">SKICKA</button>
+      </form>
+      <div class="contact-success" id="contactSuccess" data-i18n="contactSuccess">Tack! Ditt meddelande har skickats.</div>
+      <div class="contact-error" id="contactError" data-i18n="contactError">N&aring;got gick fel. F&ouml;rs&ouml;k igen.</div>
+    </div>
+  </section>
+
   <footer>&copy; 2026 SECOND OAK</footer>
 
   <script>
@@ -808,6 +950,13 @@
         project4Name: 'THUMBLY',
         project4Desc: 'AI-driven generator f\u00f6r YouTube-thumbnails med Gemini \u2014 ladda upp bilder, beskriv id\u00e9n och f\u00e5 klickv\u00e4rda thumbnails.',
         quote4: 'T\u00e4nk om man kunde skapa en viral thumbnail p\u00e5 sekunder?',
+        contactLabel: 'KONTAKT',
+        contactDesc: 'Har du en id\u00e9 eller ett projekt du vill diskutera? Skicka ett meddelande s\u00e5 h\u00f6r vi av oss.',
+        contactEmailPlaceholder: 'Din e-postadress',
+        contactMsgPlaceholder: 'Ditt meddelande...',
+        contactSend: 'SKICKA',
+        contactSuccess: 'Tack! Ditt meddelande har skickats.',
+        contactError: 'N\u00e5got gick fel. F\u00f6rs\u00f6k igen.',
       },
       en: {
         heroSub: 'Small Studio. Sharp Work.',
@@ -832,6 +981,13 @@
         project4Name: 'THUMBLY',
         project4Desc: 'AI-powered YouTube thumbnail generator using Gemini \u2014 upload images, describe your idea and get click-worthy thumbnails.',
         quote4: 'What if you could create a viral thumbnail in seconds?',
+        contactLabel: 'CONTACT',
+        contactDesc: 'Have an idea or a project you want to discuss? Send a message and we\'ll get back to you.',
+        contactEmailPlaceholder: 'Your email address',
+        contactMsgPlaceholder: 'Your message...',
+        contactSend: 'SEND',
+        contactSuccess: 'Thanks! Your message has been sent.',
+        contactError: 'Something went wrong. Please try again.',
       },
     };
 
@@ -864,6 +1020,12 @@
             el.textContent = t[key];
           }
         }
+      });
+
+      // Update placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const key = el.dataset.i18nPlaceholder;
+        if (t[key]) el.placeholder = t[key];
       });
     }
 
@@ -1027,6 +1189,43 @@
     window.addEventListener('scroll', () => {
       if (!introReady) return;
       applyScrollState();
+    });
+
+    // ---- CONTACT FORM ----
+    const contactForm = document.getElementById('contactForm');
+    const contactSuccess = document.getElementById('contactSuccess');
+    const contactError = document.getElementById('contactError');
+    const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      contactSuccess.classList.remove('visible');
+      contactError.classList.remove('visible');
+      contactSubmitBtn.disabled = true;
+      contactSubmitBtn.textContent = '...';
+
+      const formData = new FormData(contactForm);
+
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/ekdahl.simon@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(formData)),
+        });
+
+        if (res.ok) {
+          contactSuccess.classList.add('visible');
+          contactForm.reset();
+        } else {
+          contactError.classList.add('visible');
+        }
+      } catch (err) {
+        contactError.classList.add('visible');
+      }
+
+      contactSubmitBtn.disabled = false;
+      const t = translations[currentLang];
+      contactSubmitBtn.textContent = t.contactSend || 'SKICKA';
     });
   </script>
 </body>
