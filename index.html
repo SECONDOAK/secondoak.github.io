@@ -1233,10 +1233,13 @@
     const contactEmail = contactForm.querySelector('input[name="email"]');
     const contactMsg = contactForm.querySelector('textarea[name="message"]');
 
-    function updateSubmitReady() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function isEmailValid() {
       const val = contactEmail.value.trim();
-      const emailValid = val && contactEmail.validity.valid;
-      contactSubmitBtn.classList.toggle('ready', !!(emailValid && contactMsg.value.trim()));
+      return val && contactEmail.validity.valid && emailRegex.test(val);
+    }
+    function updateSubmitReady() {
+      contactSubmitBtn.classList.toggle('ready', !!(isEmailValid() && contactMsg.value.trim()));
     }
     contactEmail.addEventListener('input', () => {
       contactEmail.classList.remove('invalid');
@@ -1244,7 +1247,7 @@
     });
     contactEmail.addEventListener('blur', () => {
       const val = contactEmail.value.trim();
-      if (val && !contactEmail.validity.valid) {
+      if (val && !isEmailValid()) {
         contactEmail.classList.add('invalid');
       }
     });
