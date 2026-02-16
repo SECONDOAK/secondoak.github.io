@@ -438,13 +438,35 @@
       align-items: center;
       max-width: 260px;
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      font-weight: 300;
+      font-weight: 500;
       font-style: italic;
       color: rgba(0,255,136,0.35);
       line-height: 1.5;
       padding-left: 1.5rem;
       border-left: 2px solid rgba(0,255,136,0.15);
       margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      font-size: 10rem;
+      font-weight: 900;
+      font-style: normal;
+      color: rgba(0,255,136,0.06);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-quote span {
+      position: relative;
+      z-index: 1;
     }
 
     .project-card:hover .card-quote {
@@ -691,7 +713,7 @@
             <span class="tag">Print</span>
           </div>
         </div>
-        <blockquote class="card-quote" data-i18n="quote1">&ldquo;Hur sv&aring;rt ska det vara att skriva ut en kalender?&rdquo;</blockquote>
+        <blockquote class="card-quote"><span data-i18n="quote1">&ldquo;Hur sv&aring;rt ska det vara att skriva ut en kalender?&rdquo;</span></blockquote>
       </a>
 
       <a href="/koordinator/" class="project-card" data-animate>
@@ -711,7 +733,7 @@
             <span class="tag">OSM</span>
           </div>
         </div>
-        <blockquote class="card-quote" data-i18n="quote2">&ldquo;Jag beh&ouml;ver koordinater i flera format f&ouml;r att boka transporter&rdquo;</blockquote>
+        <blockquote class="card-quote"><span data-i18n="quote2">&ldquo;Jag beh&ouml;ver koordinater i flera format f&ouml;r att boka transporter&rdquo;</span></blockquote>
       </a>
 
       <a href="/retrocast/" class="project-card" data-animate>
@@ -731,7 +753,7 @@
             <span class="tag">API</span>
           </div>
         </div>
-        <blockquote class="card-quote" data-i18n="quote3">&ldquo;Var det s&aring;h&auml;r kallt f&ouml;rra &aring;ret?&rdquo;</blockquote>
+        <blockquote class="card-quote"><span data-i18n="quote3">&ldquo;Var det s&aring;h&auml;r kallt f&ouml;rra &aring;ret?&rdquo;</span></blockquote>
       </a>
     </div>
     </div>
