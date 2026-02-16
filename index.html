@@ -643,7 +643,15 @@
       background: rgba(255,255,255,0.06);
     }
 
+    .contact-form input[type="email"]:focus {
+      border-color: rgba(100,255,140,0.5);
+    }
+
     .contact-form input[type="email"].invalid {
+      border-color: rgba(255,100,100,0.5);
+    }
+
+    .contact-form input[type="email"].invalid:focus {
       border-color: rgba(255,100,100,0.5);
     }
 
@@ -1228,11 +1236,18 @@
     function updateSubmitReady() {
       const val = contactEmail.value.trim();
       const emailValid = val && contactEmail.validity.valid;
-      const hasContent = val.length > 0;
-      contactEmail.classList.toggle('invalid', hasContent && !emailValid);
       contactSubmitBtn.classList.toggle('ready', !!(emailValid && contactMsg.value.trim()));
     }
-    contactEmail.addEventListener('input', updateSubmitReady);
+    contactEmail.addEventListener('input', () => {
+      contactEmail.classList.remove('invalid');
+      updateSubmitReady();
+    });
+    contactEmail.addEventListener('blur', () => {
+      const val = contactEmail.value.trim();
+      if (val && !contactEmail.validity.valid) {
+        contactEmail.classList.add('invalid');
+      }
+    });
     contactMsg.addEventListener('input', updateSubmitReady);
 
     contactForm.addEventListener('submit', async (e) => {
