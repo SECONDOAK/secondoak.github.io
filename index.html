@@ -408,7 +408,10 @@
     }
 
     .project-card {
-      display: block;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto;
+      gap: 0 2rem;
       background: rgba(18,18,18,0.75);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -421,6 +424,30 @@
       transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
       opacity: 0;
       transform: translateY(30px);
+    }
+
+    .card-content {
+      min-width: 0;
+    }
+
+    .card-quote {
+      grid-row: 1 / -1;
+      display: flex;
+      align-items: center;
+      max-width: 200px;
+      font-size: 0.85rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(0,255,136,0.4);
+      line-height: 1.5;
+      padding-left: 1.25rem;
+      border-left: 2px solid rgba(0,255,136,0.15);
+      margin: 0;
+    }
+
+    .project-card:hover .card-quote {
+      color: rgba(0,255,136,0.55);
+      border-left-color: rgba(0,255,136,0.3);
     }
 
     .project-card.visible {
@@ -571,7 +598,20 @@
     /* ---- RESPONSIVE ---- */
     @media (max-width: 600px) {
       .project-card {
+        grid-template-columns: 1fr;
         padding: 2rem 1.5rem;
+      }
+
+      .card-quote {
+        grid-row: auto;
+        order: -1;
+        max-width: none;
+        border-left: none;
+        border-bottom: 1px solid rgba(0,255,136,0.15);
+        padding-left: 0;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
       }
 
       .projects-section {
@@ -632,54 +672,63 @@
     <p class="playground-desc" data-i18n="playgroundDesc">Ingen portfolio med snygga case - ist&auml;llet en samling mikroapplikationer d&auml;r funktionalitet talar f&ouml;r sig sj&auml;lv. Olika tekniker, specifika problem, snabba l&ouml;sningar.</p>
     <div class="projects-grid">
       <a href="/calendar/" class="project-card" data-animate>
-        <div class="card-top">
-          <span class="project-number">01</span>
-          <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-          </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <span class="project-number">01</span>
+            <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </div>
+          <div class="project-name" data-i18n="project1Name">CALPRINT</div>
+          <p class="project-desc" data-i18n="project1Desc">Utskriftsv&auml;nlig kalender med anpassningsbart utseende, teman och vecko- samt m&aring;nadsvy.</p>
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Print</span>
+          </div>
         </div>
-        <div class="project-name" data-i18n="project1Name">CALPRINT</div>
-        <p class="project-desc" data-i18n="project1Desc">Utskriftsv&auml;nlig kalender med anpassningsbart utseende, teman och vecko- samt m&aring;nadsvy.</p>
-        <div class="project-tags">
-          <span class="tag">HTML</span>
-          <span class="tag">CSS</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">Print</span>
-        </div>
+        <blockquote class="card-quote" data-i18n="quote1">&ldquo;Hur sv&aring;rt ska det vara att skriva ut en kalender?&rdquo;</blockquote>
       </a>
 
       <a href="/koordinator/" class="project-card" data-animate>
-        <div class="card-top">
-          <span class="project-number">02</span>
-          <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-          </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <span class="project-number">02</span>
+            <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </div>
+          <div class="project-name" data-i18n="project2Name">Koordinator</div>
+          <p class="project-desc" data-i18n="project2Desc">Konvertera och s&ouml;k koordinater mellan SWEREF99, RT90 och WGS84 med karta och adresss&ouml;kning.</p>
+          <div class="project-tags">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Leaflet</span>
+            <span class="tag">OSM</span>
+          </div>
         </div>
-        <div class="project-name" data-i18n="project2Name">Koordinator</div>
-        <p class="project-desc" data-i18n="project2Desc">Konvertera och s&ouml;k koordinater mellan SWEREF99, RT90 och WGS84 med karta och adresss&ouml;kning.</p>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">Leaflet</span>
-          <span class="tag">OSM</span>
-        </div>
+        <blockquote class="card-quote" data-i18n="quote2">&ldquo;Jag beh&ouml;ver koordinater i flera format f&ouml;r att boka transporter&rdquo;</blockquote>
       </a>
 
       <a href="/retrocast/" class="project-card" data-animate>
-        <div class="card-top">
-          <span class="project-number">03</span>
-          <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-          </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <span class="project-number">03</span>
+            <svg class="project-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </div>
+          <div class="project-name" data-i18n="project3Name">RETROCAST</div>
+          <p class="project-desc" data-i18n="project3Desc">Utforska och j&auml;mf&ouml;r historisk v&auml;derdata &mdash; se hur v&auml;dret sett ut genom &aring;ren.</p>
+          <div class="project-tags">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Vite</span>
+            <span class="tag">API</span>
+          </div>
         </div>
-        <div class="project-name" data-i18n="project3Name">RETROCAST</div>
-        <p class="project-desc" data-i18n="project3Desc">Utforska och j&auml;mf&ouml;r historisk v&auml;derdata &mdash; se hur v&auml;dret sett ut genom &aring;ren.</p>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">Vite</span>
-          <span class="tag">API</span>
-        </div>
+        <blockquote class="card-quote" data-i18n="quote3">&ldquo;Var det s&aring;h&auml;r kallt f&ouml;rra &aring;ret?&rdquo;</blockquote>
       </a>
     </div>
     </div>
@@ -706,6 +755,9 @@
         project2Desc: 'Konvertera och s\u00f6k koordinater mellan SWEREF99, RT90 och WGS84 med karta och adresss\u00f6kning.',
         project3Name: 'RETROCAST',
         project3Desc: 'Utforska och j\u00e4mf\u00f6r historisk v\u00e4derdata \u2014 se hur v\u00e4dret sett ut genom \u00e5ren.',
+        quote1: '\u201cHur sv\u00e5rt ska det vara att skriva ut en kalender?\u201d',
+        quote2: '\u201cJag beh\u00f6ver koordinater i flera format f\u00f6r att boka transporter\u201d',
+        quote3: '\u201cVar det s\u00e5h\u00e4r kallt f\u00f6rra \u00e5ret?\u201d',
       },
       en: {
         heroSub: 'Small Studio. Sharp Work.',
@@ -724,6 +776,9 @@
         project2Desc: 'Convert and search coordinates between SWEREF99, RT90 and WGS84 with map and address lookup.',
         project3Name: 'RETROCAST',
         project3Desc: 'Explore and compare historical weather data \u2014 see how the weather looked through the years.',
+        quote1: '\u201cHow hard can it be to print a calendar?\u201d',
+        quote2: '\u201cI need coordinates in multiple formats to book transports\u201d',
+        quote3: '\u201cWas it this cold last year?\u201d',
       },
     };
 
