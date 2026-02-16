@@ -643,6 +643,10 @@
       background: rgba(255,255,255,0.06);
     }
 
+    .contact-form input[type="email"].invalid {
+      border-color: rgba(255,100,100,0.5);
+    }
+
     .contact-form textarea {
       min-height: 120px;
       resize: vertical;
@@ -1222,8 +1226,11 @@
     const contactMsg = contactForm.querySelector('textarea[name="message"]');
 
     function updateSubmitReady() {
-      const valid = contactEmail.value.trim() && contactMsg.value.trim() && contactEmail.validity.valid;
-      contactSubmitBtn.classList.toggle('ready', !!valid);
+      const val = contactEmail.value.trim();
+      const emailValid = val && contactEmail.validity.valid;
+      const hasContent = val.length > 0;
+      contactEmail.classList.toggle('invalid', hasContent && !emailValid);
+      contactSubmitBtn.classList.toggle('ready', !!(emailValid && contactMsg.value.trim()));
     }
     contactEmail.addEventListener('input', updateSubmitReady);
     contactMsg.addEventListener('input', updateSubmitReady);
