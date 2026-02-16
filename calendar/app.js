@@ -1172,6 +1172,27 @@
     },
   };
 
+  // =============================================
+  // SECTION 12: INTRO MODAL CONTROLLER
+  // =============================================
+
+  const IntroController = {
+    STORAGE_KEY: 'calprint-intro-seen',
+
+    init() {
+      const modal = document.getElementById('intro-modal');
+      const btn = document.getElementById('intro-start-btn');
+      if (!modal || !btn) return;
+
+      // Show every time the app opens
+      modal.showModal();
+
+      btn.addEventListener('click', () => {
+        modal.close();
+      });
+    },
+  };
+
   function init() {
     EventStore.load();
     Customizer.init();
@@ -1179,6 +1200,7 @@
     Navigation.init();
     ModalController.init();
     SidebarToggle.init();
+    IntroController.init();
 
     // Navbar preview & print button
     document.getElementById('navbar-preview-btn').addEventListener('click', () => {
