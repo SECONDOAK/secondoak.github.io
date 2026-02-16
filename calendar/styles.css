@@ -878,19 +878,13 @@ input[type="range"] {
 
 .intro-modal-image {
   width: 100%;
-  background: linear-gradient(135deg, #eef4ff 0%, #e8e0f7 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 2rem 1rem;
 }
 
 .intro-modal-image img {
   width: 100%;
-  max-width: 380px;
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  display: block;
+  border-radius: 20px 20px 0 0;
 }
 
 .intro-modal-body {
@@ -1277,8 +1271,8 @@ body.paper-letter.orientation-landscape .week-view {
     border-radius: 16px;
   }
 
-  .intro-modal-image {
-    padding: 1.5rem 1.5rem 0.75rem;
+  .intro-modal-image img {
+    border-radius: 16px 16px 0 0;
   }
 
   .intro-modal-body {
