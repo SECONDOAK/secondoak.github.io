@@ -942,40 +942,7 @@
       serviceItems.forEach(item => item.classList.remove('revealed'));
     }
 
-    setTimeout(() => {
-      introReady = true;
-      heroTitle.classList.add('scroll-ready');
-      lineSecond.style.animation = 'none';
-      lineSecond.style.transform = 'translateX(0)';
-      lineOak.style.animation = 'none';
-      lineOak.style.transform = 'translateX(0)';
-      heroTitle.style.animation = 'none';
-      heroTitle.style.opacity = '1';
-      heroSub.style.animation = 'none';
-      heroSub.style.opacity = '1';
-      heroSub.style.transform = 'translateY(0)';
-    }, 1400);
-    setTimeout(() => {
-      scrollInd.style.animation = 'none';
-      scrollInd.style.opacity = '1';
-    }, 1900);
-
-    // ---- ABOUT: reveal words when section is visible ----
-    const aboutObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !aboutVisible) {
-          aboutVisible = true;
-          revealAboutWords();
-        } else if (!entry.isIntersecting && aboutVisible) {
-          aboutVisible = false;
-          hideAboutWords();
-        }
-      });
-    }, { threshold: 0.3 });
-    aboutObserver.observe(aboutSection);
-
-    window.addEventListener('scroll', () => {
-      if (!introReady) return;
+    function applyScrollState(instant) {
       const y = window.scrollY;
       const winH = window.innerHeight;
 
@@ -1000,16 +967,62 @@
       if (shouldShowPg && !pgVisible) {
         pgVisible = true;
         document.body.classList.add('dark-mode');
-        setTimeout(() => projectsSection.classList.add('visible'), 50);
-        projectCards.forEach((card, i) => {
-          setTimeout(() => card.classList.add('visible'), 900 + i * 150);
-        });
+        if (instant) {
+          // Page loaded already scrolled — show everything immediately
+          projectsSection.classList.add('visible');
+          projectCards.forEach(card => card.classList.add('visible'));
+        } else {
+          // Normal scroll — staggered animation
+          setTimeout(() => projectsSection.classList.add('visible'), 50);
+          projectCards.forEach((card, i) => {
+            setTimeout(() => card.classList.add('visible'), 900 + i * 150);
+          });
+        }
       } else if (!shouldShowPg && pgVisible) {
         pgVisible = false;
         projectsSection.classList.remove('visible');
         projectCards.forEach(card => card.classList.remove('visible'));
         document.body.classList.remove('dark-mode');
       }
+    }
+
+    setTimeout(() => {
+      introReady = true;
+      heroTitle.classList.add('scroll-ready');
+      lineSecond.style.animation = 'none';
+      lineSecond.style.transform = 'translateX(0)';
+      lineOak.style.animation = 'none';
+      lineOak.style.transform = 'translateX(0)';
+      heroTitle.style.animation = 'none';
+      heroTitle.style.opacity = '1';
+      heroSub.style.animation = 'none';
+      heroSub.style.opacity = '1';
+      heroSub.style.transform = 'translateY(0)';
+      // Apply correct state immediately if already scrolled on page load
+      applyScrollState(true);
+    }, 1400);
+    setTimeout(() => {
+      scrollInd.style.animation = 'none';
+      scrollInd.style.opacity = '1';
+    }, 1900);
+
+    // ---- ABOUT: reveal words when section is visible ----
+    const aboutObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !aboutVisible) {
+          aboutVisible = true;
+          revealAboutWords();
+        } else if (!entry.isIntersecting && aboutVisible) {
+          aboutVisible = false;
+          hideAboutWords();
+        }
+      });
+    }, { threshold: 0.3 });
+    aboutObserver.observe(aboutSection);
+
+    window.addEventListener('scroll', () => {
+      if (!introReady) return;
+      applyScrollState();
     });
   </script>
 </body>
