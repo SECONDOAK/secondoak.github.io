@@ -148,10 +148,22 @@
       body.light-theme .text-emerald-400 { color: #16a34a !important; }
 
       /* Borders: dark → very subtle light */
-      body.light-theme .border-slate-800 { border-color: #e5e7eb !important; }
-      body.light-theme .border-slate-700 { border-color: #d1d5db !important; }
-      body.light-theme .border-slate-700\/50 { border-color: #e5e7eb !important; }
+      body.light-theme .border-slate-800 { border-color: #f0f0f0 !important; }
+      body.light-theme .border-slate-700 { border-color: #e5e7eb !important; }
+      body.light-theme .border-slate-700\/50 { border-color: #f0f0f0 !important; }
       body.light-theme .border-slate-600 { border-color: #9ca3af !important; }
+
+      /* Chart SVG colors — CSS custom properties */
+      :root {
+        --chart-grid: #334155;
+        --chart-grid-text: #64748b;
+        --chart-spend-line: #94a3b8;
+      }
+      body.light-theme {
+        --chart-grid: #e2e8f0;
+        --chart-grid-text: #94a3b8;
+        --chart-spend-line: #334155;
+      }
 
       /* Hover states */
       body.light-theme .hover\:bg-slate-900:hover { background-color: #f9fafb !important; }
@@ -184,7 +196,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/creative-hub/assets/index-5SPPWb8a.js"></script>
+  <script type="module" crossorigin src="/creative-hub/assets/index-BX6rTs2A.js"></script>
 </head>
   <body class="bg-slate-950 text-slate-50 antialiased">
     <div id="root"></div>
