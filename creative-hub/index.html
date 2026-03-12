@@ -101,10 +101,10 @@
       }
 
       /* ── Light theme overrides ── */
-      body.light-theme { background-color: #fcfcfc; color: #111827; }
+      body.light-theme { background-color: #FCFCFC; color: #111827; }
 
-      /* Backgrounds: dark → white/near-white */
-      body.light-theme .bg-slate-950 { background-color: #fcfcfc !important; }
+      /* Backgrounds: dark → light grey / white */
+      body.light-theme .bg-slate-950 { background-color: #FCFCFC !important; }
       body.light-theme .bg-slate-900 { background-color: #ffffff !important; }
       body.light-theme .bg-slate-800 { background-color: #f3f4f6 !important; }
       body.light-theme .bg-slate-700 { background-color: #e5e7eb !important; }
@@ -114,16 +114,19 @@
 
       /* Opacity variants */
       body.light-theme .bg-slate-950\/50 { background-color: rgba(241,245,249,0.85) !important; }
-      body.light-theme .bg-slate-900\/50 { background-color: rgba(255,255,255,0.9) !important; }
+      body.light-theme .bg-slate-900\/50 { background-color: #ffffff !important; }
+      body.light-theme .bg-slate-900\/30 { background-color: #f8f9fa !important; }
       body.light-theme .bg-slate-900\/80 { background-color: rgba(255,255,255,0.95) !important; }
-      body.light-theme .bg-slate-800\/60 { background-color: rgba(255,255,255,0.95) !important; }
-      body.light-theme .bg-slate-800\/40 { background-color: rgba(255,255,255,0.9) !important; }
-      body.light-theme .bg-slate-800\/30 { background-color: rgba(255,255,255,0.85) !important; }
-      body.light-theme .bg-slate-800\/80 { background-color: rgba(255,255,255,0.97) !important; }
+      body.light-theme .bg-slate-800\/60 { background-color: #ffffff !important; }
+      body.light-theme .bg-slate-800\/40 { background-color: #ffffff !important; }
+      body.light-theme .bg-slate-800\/30 { background-color: #ffffff !important; }
+      body.light-theme .bg-slate-800\/80 { background-color: #ffffff !important; }
       body.light-theme .bg-slate-700\/50 { background-color: rgba(241,245,249,0.8) !important; }
+      body.light-theme .bg-slate-700\/40 { background-color: #f1f5f9 !important; }
 
       /* Text: light → dark */
       body.light-theme .text-white { color: #111827 !important; }
+      body.light-theme .force-white.force-white, body.light-theme .force-white.force-white * { color: #ffffff !important; stroke: currentColor !important; }
       body.light-theme .text-slate-50 { color: #111827 !important; }
       body.light-theme .text-slate-100 { color: #1f2937 !important; }
       body.light-theme .text-slate-200 { color: #374151 !important; }
@@ -141,6 +144,11 @@
       /* Paused status badge */
       body.light-theme .bg-slate-700\/60 { background-color: #e5e7eb !important; }
 
+      /* Purple — Google date+amount match */
+      body.light-theme .bg-purple-900\/10 { background-color: #faf5ff !important; }
+      body.light-theme .bg-purple-900\/30 { background-color: #f3e8ff !important; }
+      body.light-theme .text-purple-400 { color: #7c3aed !important; }
+
       /* Emerald — UTM matched order cards + active status badge */
       body.light-theme .bg-emerald-900\/10 { background-color: #f0fdf4 !important; }
       body.light-theme .border-emerald-800\/40 { border-color: #86efac !important; }
@@ -149,6 +157,7 @@
 
       /* Borders: dark → very subtle light */
       body.light-theme .border-slate-800 { border-color: #f0f0f0 !important; }
+      body.light-theme .border-slate-800\/50 { border-color: #f0f0f0 !important; }
       body.light-theme .border-slate-700 { border-color: #e5e7eb !important; }
       body.light-theme .border-slate-700\/50 { border-color: #f0f0f0 !important; }
       body.light-theme .border-slate-600 { border-color: #9ca3af !important; }
@@ -167,7 +176,9 @@
 
       /* Hover states */
       body.light-theme .hover\:bg-slate-900:hover { background-color: #f9fafb !important; }
+      body.light-theme .hover\:bg-slate-800\/30:hover { background-color: #f8fafc !important; }
       body.light-theme .hover\:bg-slate-800:hover { background-color: #f3f4f6 !important; }
+      body.light-theme .hover\:bg-slate-700\/60:hover { background-color: #f1f5f9 !important; }
       body.light-theme .hover\:bg-slate-700:hover { background-color: #e5e7eb !important; }
       body.light-theme .hover\:border-slate-600:hover { border-color: #9ca3af !important; }
       body.light-theme .hover\:border-slate-700:hover { border-color: #d1d5db !important; }
@@ -196,7 +207,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/creative-hub/assets/index-BX6rTs2A.js"></script>
+  <script type="module" crossorigin src="/creative-hub/assets/index-LWInaiie.js"></script>
 </head>
   <body class="bg-slate-950 text-slate-50 antialiased">
     <div id="root"></div>
