@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Creative Hub by Second Oak</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0f1a; color: #cbd5e1; line-height: 1.7; }
+    .container { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+    h1 { font-size: 2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .subtitle { font-size: 0.85rem; color: #64748b; margin-bottom: 48px; text-transform: uppercase; letter-spacing: 0.1em; }
+    h2 { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; margin-top: 40px; margin-bottom: 12px; }
+    p, li { font-size: 0.95rem; color: #94a3b8; margin-bottom: 12px; }
+    ul { padding-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 6px; }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .divider { height: 1px; background: #1e293b; margin: 48px 0; }
+    .footer { text-align: center; font-size: 0.8rem; color: #475569; margin-top: 60px; }
+    @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap');
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">Creative Hub by Second Oak &mdash; Last updated: March 12, 2026</p>
+
+    <h2>1. Introduction</h2>
+    <p>Creative Hub ("we", "our", "us") is a creative content management platform operated by Second Oak. This Privacy Policy explains how we collect, use, and protect your personal data when you use our application at <a href="https://secondoak.se/creative-hub">secondoak.se/creative-hub</a>.</p>
+    <p>By using Creative Hub, you agree to the practices described in this policy.</p>
+
+    <h2>2. Data We Collect</h2>
+    <p>We collect the following categories of data:</p>
+    <ul>
+      <li><strong>Account information:</strong> Email address and password (managed via Supabase Authentication).</li>
+      <li><strong>Project data:</strong> Brand configurations, generated images, uploaded assets, and ad content you create within the platform.</li>
+      <li><strong>Third-party platform tokens:</strong> When you connect external services (Meta Ads, Google Ads, Shopify), we store encrypted access tokens to manage your advertising campaigns on your behalf.</li>
+      <li><strong>Usage data:</strong> Basic interaction data such as login timestamps and feature usage for service improvement.</li>
+    </ul>
+
+    <h2>3. How We Use Your Data</h2>
+    <p>We use your data exclusively to:</p>
+    <ul>
+      <li>Provide and operate the Creative Hub platform.</li>
+      <li>Authenticate your identity and manage your account.</li>
+      <li>Generate AI-powered creative content based on your project configurations.</li>
+      <li>Create, manage, and monitor advertising campaigns on connected platforms (Meta, Google, Shopify) on your behalf.</li>
+      <li>Store and organize your creative assets and project history.</li>
+      <li>Improve the platform and fix issues.</li>
+    </ul>
+
+    <h2>4. Third-Party Services</h2>
+    <p>Creative Hub integrates with the following third-party services:</p>
+    <ul>
+      <li><strong>Supabase:</strong> Authentication, database, and file storage. Data is stored in Supabase-managed infrastructure. See <a href="https://supabase.com/privacy" target="_blank">Supabase Privacy Policy</a>.</li>
+      <li><strong>Google Gemini API:</strong> AI image generation. Prompts and generated images are processed via Google's API. See <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a>.</li>
+      <li><strong>Meta (Facebook) Ads API:</strong> When connected, we use Meta's Marketing API to create and manage ad campaigns. See <a href="https://www.facebook.com/privacy/policy" target="_blank">Meta Privacy Policy</a>.</li>
+      <li><strong>Google Ads API:</strong> When connected, we use Google's Ads API to manage advertising. See <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a>.</li>
+      <li><strong>Shopify API:</strong> When connected, we access order data for ad attribution. See <a href="https://www.shopify.com/legal/privacy" target="_blank">Shopify Privacy Policy</a>.</li>
+      <li><strong>Cloudflare Workers:</strong> Used as a proxy for API requests. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy Policy</a>.</li>
+    </ul>
+
+    <h2>5. Data Storage and Security</h2>
+    <p>Your data is stored securely using Supabase's managed PostgreSQL database and storage services. We implement the following security measures:</p>
+    <ul>
+      <li>Row-Level Security (RLS) policies to ensure users can only access their own data.</li>
+      <li>Role-based access control (admin, manager, editor, viewer) for project-level permissions.</li>
+      <li>Encrypted access tokens for third-party platform integrations.</li>
+      <li>HTTPS encryption for all data in transit.</li>
+    </ul>
+
+    <h2>6. Data Sharing</h2>
+    <p>We do not sell, rent, or share your personal data with third parties for marketing purposes. Data is only shared with the third-party services listed above as necessary to provide the platform's functionality, and only when you explicitly connect those services.</p>
+
+    <h2>7. Data Retention</h2>
+    <p>We retain your data for as long as your account is active. You may request deletion of your account and associated data at any time by contacting us. Third-party platform tokens are stored until you disconnect the integration or delete your account.</p>
+
+    <h2>8. Your Rights</h2>
+    <p>Depending on your jurisdiction, you may have the following rights:</p>
+    <ul>
+      <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+      <li><strong>Correction:</strong> Request correction of inaccurate data.</li>
+      <li><strong>Deletion:</strong> Request deletion of your personal data.</li>
+      <li><strong>Portability:</strong> Request your data in a portable format.</li>
+      <li><strong>Withdrawal of consent:</strong> Disconnect third-party integrations at any time through the platform settings.</li>
+    </ul>
+
+    <h2>9. Cookies</h2>
+    <p>Creative Hub uses only essential cookies and local storage for authentication session management. We do not use advertising or tracking cookies.</p>
+
+    <h2>10. Children's Privacy</h2>
+    <p>Creative Hub is not intended for use by individuals under the age of 16. We do not knowingly collect data from children.</p>
+
+    <h2>11. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Changes will be reflected by updating the "Last updated" date at the top of this page. Continued use of the platform after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>12. Contact</h2>
+    <p>If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at:</p>
+    <p><a href="mailto:hello@secondoak.se">hello@secondoak.se</a></p>
+
+    <div class="divider"></div>
+    <p class="footer">&copy; 2026 Second Oak. All rights reserved.</p>
+  </div>
+</body>
+</html>
