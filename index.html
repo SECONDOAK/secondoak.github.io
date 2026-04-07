@@ -1257,7 +1257,7 @@
           // Normal scroll — staggered animation
           setTimeout(() => projectsSection.classList.add('visible'), 50);
           projectCards.forEach((card, i) => {
-            setTimeout(() => card.classList.add('visible'), 900 + i * 150);
+            setTimeout(() => card.classList.add('visible'), 100 + i * 60);
           });
         }
       } else if (!shouldShowPg && pgVisible) {
