@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover is required for env(safe-area-inset-*) to resolve to
+         anything but 0. The mobile bottom nav pads itself with the bottom inset,
+         so without this it sat underneath the browser chrome. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Brand Vault</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -221,7 +224,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/creative-hub/assets/index-CMtx214w.js"></script>
+  <script type="module" crossorigin src="/creative-hub/assets/index-gJyA76Jm.js"></script>
 </head>
   <body class="bg-slate-950 text-slate-50 antialiased">
     <div id="root"></div>
