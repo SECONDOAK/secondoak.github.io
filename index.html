@@ -232,14 +232,28 @@
       inset: 0;
       background-image: radial-gradient(rgba(17, 17, 17, 0.14) 1px, transparent 1px);
       background-size: 26px 26px;
-      -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
-      mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%), radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%), radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
+      mask-composite: intersect;
       pointer-events: none;
       transition: opacity 0.6s ease;
     }
 
     body.dark-mode .about-section::before {
       background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    }
+
+    .about-grid-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%), radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%), radial-gradient(ellipse 85% 75% at 50% 40%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%);
+      mask-composite: intersect;
     }
 
     .about-inner {
@@ -877,6 +891,7 @@
   </div>
 
   <section class="about-section">
+    <canvas class="about-grid-canvas" aria-hidden="true"></canvas>
     <div class="about-inner">
       <img class="about-photo" src="/Assets/simon-second-oak.png" alt="Simon, grundare av Second Oak" width="1000" height="885">
       <p class="about-label" data-i18n="aboutLabel">OM OSS</p>
@@ -1037,6 +1052,7 @@
         <blockquote class="card-quote"><span data-i18n="quote7">Vem vann t&auml;vlingen? Jag orkar inte scrolla igenom 200 kommentarer.</span></blockquote>
       </a>
 
+      <!-- Turkosjägaren — dold från publika portfolion
       <a href="/turkosjagaren/" class="project-card" data-animate>
         <div class="card-content">
           <div class="card-top">
@@ -1056,6 +1072,7 @@
         </div>
         <blockquote class="card-quote"><span data-i18n="quote8">T&auml;nk om man kunde hitta alla turkosa sj&ouml;ar i Sverige?</span></blockquote>
       </a>
+      -->
     </div>
     </div>
   </section>
@@ -1372,6 +1389,115 @@
       if (!introReady) return;
       applyScrollState();
     });
+
+    // ---- ABOUT: dot-grid signal pulses ----
+    (function () {
+      const canvas = document.querySelector('.about-grid-canvas');
+      if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const ctx = canvas.getContext('2d');
+      const GRID = 26;        // must match .about-section::before background-size
+      const DOT_OFFSET = 13;  // radial-gradient dots sit at tile centers
+      let w = 0, h = 0, dpr = 1;
+      let pulses = [];
+      let running = false;
+      let rafId = null;
+      let spawnTimer = null;
+
+      function resizeCanvas() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = aboutSection.clientWidth;
+        h = aboutSection.clientHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      new ResizeObserver(resizeCanvas).observe(aboutSection);
+      resizeCanvas();
+
+      function spawnPulse() {
+        if (pulses.length >= 3) return;
+        const horizontal = Math.random() < 0.5;
+        const lineCount = Math.floor((horizontal ? h : w) / GRID);
+        const line = DOT_OFFSET + GRID * Math.floor(Math.random() * lineCount);
+        const dir = Math.random() < 0.5 ? 1 : -1;
+        const span = horizontal ? w : h;
+        pulses.push({
+          horizontal, line, dir,
+          head: dir === 1 ? -20 : span + 20,
+          speed: 220 + Math.random() * 140,   // px/s
+          trail: 130 + Math.random() * 80,
+        });
+      }
+
+      function scheduleSpawn() {
+        spawnTimer = setTimeout(() => {
+          if (running) spawnPulse();
+          scheduleSpawn();
+        }, 1400 + Math.random() * 1800);
+      }
+
+      let lastT = 0;
+      function frame(t) {
+        if (!running) return;
+        const dt = lastT ? Math.min((t - lastT) / 1000, 0.05) : 0.016;
+        lastT = t;
+        ctx.clearRect(0, 0, w, h);
+
+        const dark = document.body.classList.contains('dark-mode');
+        const rgb = dark ? '150, 180, 255' : '45, 80, 150';
+
+        pulses = pulses.filter((p) => {
+          p.head += p.speed * p.dir * dt;
+          const span = p.horizontal ? w : h;
+          if (p.dir === 1 ? p.head - p.trail > span : p.head + p.trail < 0) return false;
+
+          // light up dots behind the pulse head with a fading tail
+          const first = Math.round((p.head - DOT_OFFSET) / GRID);
+          const steps = Math.ceil(p.trail / GRID);
+          for (let k = 0; k <= steps; k++) {
+            const idx = first - k * p.dir;
+            const pos = DOT_OFFSET + idx * GRID;
+            if (pos < 0 || pos > span) continue;
+            const dist = Math.abs(p.head - pos);
+            if (dist > p.trail) continue;
+            const a = Math.pow(1 - dist / p.trail, 2);
+            const x = p.horizontal ? pos : p.line;
+            const y = p.horizontal ? p.line : pos;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(${rgb}, ${(a * 0.12).toFixed(3)})`;
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(${rgb}, ${(a * 0.55).toFixed(3)})`;
+            ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          return true;
+        });
+
+        rafId = requestAnimationFrame(frame);
+      }
+
+      const canvasObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !running) {
+            running = true;
+            lastT = 0;
+            spawnPulse();
+            scheduleSpawn();
+            rafId = requestAnimationFrame(frame);
+          } else if (!entry.isIntersecting && running) {
+            running = false;
+            clearTimeout(spawnTimer);
+            cancelAnimationFrame(rafId);
+            pulses = [];
+            ctx.clearRect(0, 0, w, h);
+          }
+        });
+      }, { threshold: 0.05 });
+      canvasObserver.observe(aboutSection);
+    })();
 
     // ---- CONTACT FORM ----
     const contactForm = document.getElementById('contactForm');
