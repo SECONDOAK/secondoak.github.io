@@ -182,12 +182,22 @@
         --chart-grid: #334155;
         --chart-grid-text: #64748b;
         --chart-spend-line: #94a3b8;
+        --chart-emphasis: #e2e8f0;   /* active marker / strong label on a card */
+        --ghost-stroke: #334155;     /* placeholder-chart sketch lines */
+        --ghost-fill: #1e293b;       /* placeholder-chart sketch fills */
       }
       body.light-theme {
         --chart-grid: #e2e8f0;
         --chart-grid-text: #94a3b8;
         --chart-spend-line: #334155;
+        --chart-emphasis: #111827;
+        --ghost-stroke: #cbd5e1;
+        --ghost-fill: #e5e7eb;
       }
+      /* Opacity variants introduced by the ads dashboard */
+      body.light-theme .bg-slate-900\/60 { background-color: rgba(255,255,255,0.9) !important; }
+      body.light-theme .bg-slate-950\/40 { background-color: #f8fafc !important; }
+      body.light-theme .text-slate-600 { color: #6b7280 !important; }
 
       /* Hover states */
       body.light-theme .hover\:bg-slate-900:hover { background-color: #f9fafb !important; }
@@ -225,7 +235,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/creative-hub/app/assets/index-Dq65ajoW.js"></script>
+  <script type="module" crossorigin src="/creative-hub/app/assets/index-LdcQiEql.js"></script>
 </head>
   <body class="bg-slate-950 text-slate-50 antialiased">
     <div id="root"></div>
