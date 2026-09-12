@@ -196,12 +196,12 @@
     </section>
 
     <section id="google">
-      <div class="sec-head"><div class="kicker">Transparency</div><h2>How Brand Vault uses your Google Ads account</h2><p class="sub">When a workspace manager connects Google Ads, Brand Vault asks for the Google Ads API permission (<code>https://www.googleapis.com/auth/adwords</code>) through Google's standard sign-in. With that permission it:</p></div>
+      <div class="sec-head"><div class="kicker">Transparency</div><h2>How Brand Vault uses your Google Ads account</h2><p class="sub">When a workspace manager connects Google Ads, Brand Vault asks for the Google Ads API permission (<code>https://www.googleapis.com/auth/adwords</code>) through Google's standard sign-in — the only scope the Google Ads API offers. Brand Vault uses it <strong>read-only</strong>: it never creates, edits, pauses or deletes anything in your Google Ads account. With that permission it:</p></div>
       <div class="split">
         <ol class="steps">
           <li><span>Lists the Google Ads accounts the signed-in user can access, so they choose which one to connect.</span></li>
           <li><span>Reads campaign, ad group and ad names and statuses, and daily performance — spend, impressions, clicks, conversions — and stores them so the dashboard can show trends over time.</span></li>
-          <li><span>Lets authorised workspace members pause or resume ads from the dashboard.</span></li>
+          <li><span>Compares that performance with real orders from the connected store, so return on ad spend is measured in money that actually arrived.</span></li>
         </ol>
         <div class="note">
           <h4>Your data stays yours</h4>
@@ -218,7 +218,7 @@
         <details open><summary>What is Brand Vault?</summary><div class="ans"><p>A private marketing workspace for a business. It connects the advertising accounts and the Shopify store the business already runs, shows advertising performance measured against real orders, and generates ad creatives from the brand's own assets.</p></div></details>
         <details><summary>How do I get access?</summary><div class="ans"><p>Brand Vault is invitation-only. Second Oak sets up a workspace for your business and invites you by email. From there you decide which of your colleagues can view, edit, or manage connections. <a href="mailto:simon@secondoak.se?subject=Brand%20Vault%20access">Request access</a>.</p></div></details>
         <details><summary>Which platforms can I connect?</summary><div class="ans"><p>Google Ads, Meta Ads (Facebook &amp; Instagram), Microsoft Advertising, TikTok Ads and Shopify. Each is connected with the platform's own sign-in — Brand Vault never asks for your passwords.</p></div></details>
-        <details><summary>What exactly does Brand Vault read from my Google Ads account?</summary><div class="ans"><p>Campaign, ad group and ad names and statuses, plus daily spend, impressions, clicks and conversions. It does not read billing details, and it never creates accounts or changes budgets on its own. See <a href="#google">how Brand Vault uses your Google Ads account</a>.</p></div></details>
+        <details><summary>What exactly does Brand Vault read from my Google Ads account?</summary><div class="ans"><p>Campaign, ad group and ad names and statuses, plus daily spend, impressions, clicks and conversions — read-only. It does not read billing details and never creates, edits, pauses or deletes anything in your account. See <a href="#google">how Brand Vault uses your Google Ads account</a>.</p></div></details>
         <details><summary>Is my data shared with anyone?</summary><div class="ans"><p>No. Workspaces are isolated from one another, data is never sold, and it is never used for advertising of our own. It is hosted with our infrastructure providers (Supabase for the database) solely to run the service. Full details in the <a href="https://secondoak.se/creative-hub/privacy.html">Privacy Policy</a>.</p></div></details>
         <details><summary>How do I disconnect or revoke access?</summary><div class="ans"><p>Click Disconnect on the platform card in Brand Vault — the stored token is deleted immediately. You can also revoke from the platform itself: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account permissions</a>, Meta Business settings, or Shopify admin. To delete an entire workspace, email us.</p></div></details>
         <details><summary>Who builds and operates Brand Vault?</summary><div class="ans"><p><strong>Second Oak AB</strong>, a small product design and development studio in Sweden. Contact: <a href="mailto:simon@secondoak.se">simon@secondoak.se</a>.</p></div></details>
