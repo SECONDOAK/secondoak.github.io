@@ -387,6 +387,9 @@
     .about-photo {
       --lift-r: 0;
       --lift-l: 0;
+      --push-r: 0;
+      --push-l: 0;
+      --push-b: 0;
       position: relative;
       display: block;
       width: clamp(400px, 70vw, 700px);
@@ -417,15 +420,58 @@
       will-change: transform;
     }
 
-    /* Both arm groups pivot right behind the chest: mostly rotation, only a small lift */
+    /* Both arm groups pivot right behind the chest: mostly rotation, only a small lift.
+       --push-* (click on the person): negative = pressed back, positive = bouncing forward.
+       The outer scale is the body's, so the arms go back together with him and then add
+       their own bounce on top */
     .about-layer--arms-r {
-      transform-origin: 50% 54%;
-      transform: translateY(calc(var(--lift-r) * -1%)) rotate(calc(var(--lift-r) * -8deg));
+      transform-origin: 49.6% 53.7%;
+      transform: scale(calc(1 + var(--push-b) * 0.05))
+        translateY(calc(var(--lift-r) * -1%))
+        rotate(calc(var(--lift-r) * -8deg + var(--push-r) * -3deg))
+        scale(calc(1 + var(--push-r) * 0.04));
     }
 
     .about-layer--arms-l {
-      transform-origin: 50% 54%;
-      transform: translateY(calc(var(--lift-l) * -1%)) rotate(calc(var(--lift-l) * 8deg));
+      transform-origin: 49.6% 53.7%;
+      transform: scale(calc(1 + var(--push-b) * 0.05))
+        translateY(calc(var(--lift-l) * -1%))
+        rotate(calc(var(--lift-l) * 8deg + var(--push-l) * 3deg))
+        scale(calc(1 + var(--push-l) * 0.04));
+    }
+
+    /* The body is cut along the circle's lower edge, so the two always share one transform:
+       they shrink back together around the circle's centre and he never slips out of it */
+    .about-layer--body,
+    .about-layer--circle {
+      transform-origin: 49.6% 53.7%;
+      transform: scale(calc(1 + var(--push-b) * 0.05));
+    }
+
+    /* Click target and pressure ring share the circle's box */
+    .about-poke,
+    .about-ripple {
+      position: absolute;
+      left: 13.4%;
+      top: 12.8%;
+      width: 72.4%;
+      height: 81.8%;
+      border-radius: 50%;
+    }
+
+    .about-poke {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .about-poke { cursor: default; }
+    }
+
+    .about-ripple {
+      border: 2px solid rgba(6, 49, 91, 0.5);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .about-label {
@@ -3304,10 +3350,11 @@
     <canvas class="about-grid-canvas" aria-hidden="true"></canvas>
     <div class="about-inner">
       <div class="about-photo" role="img" aria-label="Simon, grundare av Second Oak">
-        <img class="about-layer" src="/Assets/simon-arms/1.webp" alt="" width="1168" height="1034">
+        <img class="about-layer about-layer--circle" src="/Assets/simon-arms/1.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--arms-r" src="/Assets/simon-arms/2.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--arms-l" src="/Assets/simon-arms/3.webp" alt="" width="1168" height="1034">
-        <img class="about-layer" src="/Assets/simon-arms/4.webp" alt="" width="1168" height="1034">
+        <img class="about-layer about-layer--body" src="/Assets/simon-arms/4.webp" alt="" width="1168" height="1034">
+        <span class="about-poke" aria-hidden="true"></span>
       </div>
       <p class="about-label" data-i18n="aboutLabel">OM F&Ouml;RETAGET</p>
       <p class="about-text" data-i18n="aboutText">
@@ -4333,6 +4380,13 @@
         { prop: '--lift-r', pos: LOW, vel: 0, k: 70, c: 12 },
         { prop: '--lift-l', pos: LOW, vel: 0, k: 52, c: 10 },  // a touch slower: the two sides never move in lockstep
       ];
+      // Click on the person: he, the circle and the arms go back together, then the arms
+      // bounce forward on their own looser springs = a short wobble.
+      const push = [
+        { prop: '--push-b', pos: 0, vel: 0, k: 260, c: 13, kick: -27, delay: 0 },
+        { prop: '--push-r', pos: 0, vel: 0, k: 170, c: 5, kick: -17, delay: 20 },
+        { prop: '--push-l', pos: 0, vel: 0, k: 150, c: 4.8, kick: -17, delay: 50 },
+      ];
       let target = LOW, rafId = null, last = 0;
 
       const ease = (v) => v * v * (3 - 2 * v);
@@ -4351,13 +4405,19 @@
         const dt = last ? Math.min((now - last) / 1000, 1 / 30) : 1 / 60;
         last = now;
         let moving = false;
-        for (const a of arms) {
-          a.vel += ((target - a.pos) * a.k - a.vel * a.c) * dt;
-          a.pos += a.vel * dt;
-          if (Math.abs(target - a.pos) > 0.0005 || Math.abs(a.vel) > 0.0005) moving = true;
-          else { a.pos = target; a.vel = 0; }
-          aboutPhoto.style.setProperty(a.prop, a.pos.toFixed(4));
-        }
+        const step = (s, to) => {
+          if (s.at && now >= s.at) {
+            s.vel = Math.max(s.vel + s.kick, s.kick * 1.5);  // repeated clicks stack, but only so far
+            s.at = 0;
+          }
+          s.vel += ((to - s.pos) * s.k - s.vel * s.c) * dt;
+          s.pos += s.vel * dt;
+          if (s.at || Math.abs(to - s.pos) > 0.0005 || Math.abs(s.vel) > 0.0005) moving = true;
+          else { s.pos = to; s.vel = 0; }
+          aboutPhoto.style.setProperty(s.prop, s.pos.toFixed(4));
+        };
+        arms.forEach((a) => step(a, target));
+        push.forEach((s) => step(s, 0));
         rafId = moving ? requestAnimationFrame(tick) : null;
         if (!moving) last = 0;
       }
@@ -4366,6 +4426,33 @@
         measure();
         if (!rafId) rafId = requestAnimationFrame(tick);
       }
+
+      const circle = aboutPhoto.querySelector('.about-layer--circle');
+      function poke() {
+        const now = performance.now();
+        push.forEach((s) => { s.at = now + s.delay; });
+        if (!rafId) rafId = requestAnimationFrame(tick);
+
+        const ring = document.createElement('span');
+        ring.className = 'about-ripple';
+        circle.after(ring);
+        ring.animate(
+          [{ opacity: 0.9, transform: 'scale(0.96)' }, { opacity: 0, transform: 'scale(1.22)' }],
+          { duration: 900, delay: 40, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }
+        ).finished.then(() => ring.remove(), () => ring.remove());
+      }
+
+      // Mouse reacts on press; touch waits for a tap so scrolling over the photo never pokes him
+      const hit = aboutPhoto.querySelector('.about-poke');
+      let lastMouse = 0;
+      hit.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        lastMouse = performance.now();
+        poke();
+      });
+      hit.addEventListener('click', () => {
+        if (performance.now() - lastMouse > 600) poke();
+      });
 
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
