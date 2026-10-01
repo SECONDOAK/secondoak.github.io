@@ -1669,6 +1669,106 @@
     }
 
     @keyframes mqScroll { to { transform: translateX(-50%); } }
+    /* Tile 10: a neon outline morphing between shapes (SMIL, built in JS) */
+    .next-morph {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      width: 48cqmin;
+      height: 48cqmin;
+      translate: -50% -50%;
+      overflow: visible;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(var(--neon), 0.35));
+    }
+
+    .next-morph path {
+      fill: rgba(var(--neon), 0.06);
+      stroke: rgb(var(--neon));
+      stroke-width: 1.4;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .next-morph .echo {
+      fill: none;
+      opacity: 0.3;
+    }
+
+    /* "Hör av dig": a clean email icon. It slides in, an "@" badge pops like a new-mail
+       notification, then it winds up and is sent off with a little trail */
+    .cta-mail {
+      position: absolute;
+      left: 50%;
+      top: 47%;
+      width: 48cqmin;
+      translate: -50% -50%;
+      overflow: visible;
+      pointer-events: none;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .cta-mail path,
+    .cta-mail rect,
+    .cta-mail circle { vector-effect: non-scaling-stroke; }
+
+    .cta-mail .mail-fill {
+      fill: #0b0b0c;
+      transition: fill 0.4s ease;
+    }
+
+    .cta-mail .mail-badge circle {
+      fill: rgb(var(--neon));
+      stroke: #0b0b0c;
+      stroke-width: 3;
+      transition: fill 0.4s ease, stroke 0.4s ease;
+    }
+
+    .cta-mail .mail-badge text {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      fill: #04140c;
+      stroke: none;
+      transition: fill 0.4s ease;
+    }
+
+    .tile-cta:is(:hover, :focus-visible) .cta-mail .mail-fill { fill: rgb(var(--neon)); }
+    .tile-cta:is(:hover, :focus-visible) .cta-mail .mail-badge circle { fill: #0a0a0a; stroke: rgb(var(--neon)); }
+    .tile-cta:is(:hover, :focus-visible) .cta-mail .mail-badge text { fill: rgb(var(--neon)); }
+
+    .cta-mail .mail,
+    .cta-mail .mail-trail { transform-box: view-box; }
+    .cta-mail .mail-badge { transform-box: fill-box; transform-origin: center; }
+
+    .cta-mail .mail { transform-origin: 60px 60px; animation: mailSend 4.6s ease-in-out infinite; }
+    .cta-mail .mail-badge { animation: mailBadge 4.6s ease-out infinite; }
+    .cta-mail .mail-trail { opacity: 0; animation: mailTrail 4.6s ease-out infinite; }
+
+    @keyframes mailSend {
+      0% { transform: translateX(-26px) scale(0.85); opacity: 0; }
+      10%, 50% { transform: none; opacity: 1; }
+      58% { transform: translateX(-7px) rotate(5deg); opacity: 1; }
+      74% { transform: translate(42px, -30px) rotate(-14deg) scale(0.55); opacity: 0; }
+      100% { transform: translateX(-26px) scale(0.85); opacity: 0; }
+    }
+
+    @keyframes mailBadge {
+      0%, 18% { transform: scale(0); }
+      24% { transform: scale(1.25); }
+      29%, 100% { transform: scale(1); }
+    }
+
+    @keyframes mailTrail {
+      0%, 58% { opacity: 0; transform: translateX(0); }
+      64% { opacity: 0.8; }
+      76%, 100% { opacity: 0; transform: translateX(-14px); }
+    }
+
     @keyframes nextLoad { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
     @keyframes caretBlink { 50% { opacity: 0; } }
     @keyframes softBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
@@ -3537,7 +3637,7 @@
               </div>
               <div class="tile-foot">
                 <div class="project-name" data-i18n="project6Name">BRAND VAULT</div>
-                <p class="project-desc" data-i18n="project6Desc">Spårar annonser korrekt, från klick i Meta och Google till faktiska ordrar i butiken, och använder AI för att optimera kampanjer och annonsmaterial.</p>
+                <p class="project-desc" data-i18n="project6Desc">AI-driven annonsstudio med spårning och optimering som följer varje kampanj från klick i Meta och Google till faktiska ordrar i butiken.</p>
                 <div class="project-tags">
                   <span class="tag">React</span>
                   <span class="tag">TypeScript</span>
@@ -3553,7 +3653,7 @@
           <div class="tile-inner">
             <span class="next-num">10</span>
             <div>
-              <span class="next-label" data-i18n="nextLabel">N&auml;sta experiment</span>
+              <span class="next-label" data-i18n="nextLabel">N&auml;sta projekt</span>
               <span class="next-status"><span data-i18n="nextStatus">Bygger</span><i class="caret"></i></span>
               <div class="next-bar"><i></i></div>
             </div>
@@ -3563,6 +3663,17 @@
         <a href="#contactSection" class="tile tile-cta">
           <div class="tile-inner">
             <span class="cta-label" data-i18n="ctaLabel">Eget problem att l&ouml;sa?</span>
+            <svg class="cta-mail" viewBox="0 0 120 110" aria-hidden="true">
+              <g class="mail-trail"><path d="M0 58h16M4 70h12M8 82h8"/></g>
+              <g class="mail">
+                <rect class="mail-fill" x="14" y="30" width="92" height="62" rx="9"/>
+                <path d="M21 38 L60 66 L99 38"/>
+                <g class="mail-badge">
+                  <circle cx="103" cy="31" r="14"/>
+                  <text x="103" y="36.5" text-anchor="middle">@</text>
+                </g>
+              </g>
+            </svg>
             <div class="cta-row">
               <span class="cta-title" data-i18n="ctaTitle">H&ouml;r av dig</span>
               <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
@@ -3729,7 +3840,7 @@
         project5Desc: 'AI-driven produktfotostudio med Gemini , ladda upp produktbilder, v\u00e4lj stil och generera professionella produktfoton.',
         quote5: 'Kan AI skapa produktfoton som ser professionella ut?',
         project6Name: 'BRAND VAULT',
-        project6Desc: 'Spårar annonser korrekt, från klick i Meta och Google till faktiska ordrar i butiken, och använder AI för att optimera kampanjer och annonsmaterial.',
+        project6Desc: 'AI-driven annonsstudio med spårning och optimering som följer varje kampanj från klick i Meta och Google till faktiska ordrar i butiken.',
         quote6: 'Hur snabbt kan AI skapa en komplett annonskampanj?',
         project7Name: 'PATREON PICKER',
         project7Desc: 'Slumpa vinnare bland kommentarer p\u00e5 Patreon-inl\u00e4gg , importera alla kommentarer direkt och dra vinnare med ett klick.',
@@ -3746,7 +3857,7 @@
         statProjects: 'Projekt',
         statTech: 'Tekniker',
         wallIdle: 'V\u00e4lj ett projekt',
-        nextLabel: 'N\u00e4sta experiment',
+        nextLabel: 'N\u00e4sta projekt',
         nextStatus: 'Bygger',
         ctaLabel: 'Eget problem att l\u00f6sa?',
         ctaTitle: 'H\u00f6r av dig',
@@ -3856,7 +3967,7 @@
         project5Desc: 'AI-powered product photo studio using Gemini , upload product images, choose a style and generate professional product photos.',
         quote5: 'Can AI create product photos that look professional?',
         project6Name: 'BRAND VAULT',
-        project6Desc: 'Tracks ads accurately, from clicks on Meta and Google to actual orders in the store, and uses AI to optimise campaigns and ad creative.',
+        project6Desc: 'AI-driven ad studio with tracking and optimisation that follows every campaign from clicks on Meta and Google to actual orders in the store.',
         quote6: 'How fast can AI build a complete ad campaign?',
         project7Name: 'PATREON PICKER',
         project7Desc: 'Pick random winners from Patreon post comments , import all comments instantly and draw winners with one click.',
@@ -3873,7 +3984,7 @@
         statProjects: 'Projects',
         statTech: 'Technologies',
         wallIdle: 'Select a project',
-        nextLabel: 'Next experiment',
+        nextLabel: 'Next project',
         nextStatus: 'Building',
         ctaLabel: 'Got a problem to solve?',
         ctaTitle: 'Get in touch',
@@ -4817,6 +4928,53 @@
         return { update };
       }
 
+      // Tile 10: an outline that morphs between shapes. Every shape has the same 72 points,
+      // sampled clockwise from the top, so SMIL can interpolate the path.
+      const morphSvg = (function () {
+        const host = wallEl.querySelector('.tile-next .tile-inner');
+        if (!host) return null;
+        const N = 72, R = 34, TAU = Math.PI * 2;
+        const toPath = (pts) => 'M' + pts.map(([x, y]) => `${x.toFixed(2)} ${y.toFixed(2)}`).join(' L') + ' Z';
+        const polar = (fn) => Array.from({ length: N }, (_, i) => {
+          const a = -Math.PI / 2 + (i / N) * TAU;
+          const r = fn(a) * R;
+          return [50 + Math.cos(a) * r, 50 + Math.sin(a) * r];
+        });
+        const polygon = (n) => (a) => {
+          const seg = TAU / n;
+          const local = (((a + Math.PI / 2) % seg) + seg) % seg;
+          return Math.cos(Math.PI / n) / Math.cos(local - Math.PI / n);
+        };
+        const heart = Array.from({ length: N }, (_, i) => {
+          const t = (i / N) * TAU;
+          const x = 16 * Math.sin(t) ** 3;
+          const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+          return [50 + x * (R / 17), 50 + (y - 2.5) * (R / 17)];
+        });
+        const shapes = [
+          polar(() => 1),
+          polar((a) => 0.92 * (Math.abs(Math.cos(a)) ** 4 + Math.abs(Math.sin(a)) ** 4) ** -0.25),
+          polar((a) => 1.12 * polygon(3)(a)),
+          polar((a) => 0.92 * (1 + 0.22 * Math.cos(5 * (a + Math.PI / 2)))),
+          heart,
+        ].map(toPath);
+
+        const values = [];
+        shapes.forEach((d) => values.push(d, d));
+        values.push(shapes[0]);
+        const keyTimes = [0, 0.12, 0.2, 0.32, 0.4, 0.52, 0.6, 0.72, 0.8, 0.92, 1].join(';');
+        const hold = '0 0 1 1', ease = '0.65 0 0.35 1';
+        const keySplines = [hold, ease, hold, ease, hold, ease, hold, ease, hold, ease].join(';');
+        const anim = (begin) => reduceMotion ? '' :
+          `<animate attributeName="d" dur="10s" begin="${begin}" repeatCount="indefinite" calcMode="spline" keyTimes="${keyTimes}" keySplines="${keySplines}" values="${values.join(';')}"/>`;
+
+        host.insertAdjacentHTML('beforeend',
+          `<svg class="next-morph" viewBox="0 0 100 100" aria-hidden="true">` +
+          `<path class="echo" d="${shapes[0]}">${anim('-0.18s')}</path>` +
+          `<path d="${shapes[0]}">${anim('0s')}</path></svg>`);
+        return host.querySelector('.next-morph');
+      })();
+
       const builders = { shot: buildShot, stand: buildStand, pick: buildPick, cal: buildCal, topo: buildTopo, retro: buildRetro, thumbs: buildThumbs, vault: buildVault, sauna: buildSauna };
       const visuals = [];
       wallEl.querySelectorAll('[data-vis]').forEach((el) => {
@@ -4992,6 +5150,9 @@
       function sync() {
         const should = booted && inView && !document.hidden;
         wallEl.classList.toggle('live', should);
+        if (morphSvg && morphSvg.pauseAnimations) {
+          if (should) morphSvg.unpauseAnimations(); else morphSvg.pauseAnimations();
+        }
         if (should && !running && !reduceMotion) {
           running = true;
           lastFrame = performance.now();
