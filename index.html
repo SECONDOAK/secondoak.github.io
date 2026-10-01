@@ -644,8 +644,8 @@
       transition: transform 0.55s var(--ease);
     }
 
-    .svc-row:is(:hover, :focus-within)::before { opacity: 1; transform: none; }
-    .svc-row:is(:hover, :focus-within)::after { transform: scaleY(1); }
+    .svc-row:is(:hover, :focus-within, .is-active)::before { opacity: 1; transform: none; }
+    .svc-row:is(:hover, :focus-within, .is-active)::after { transform: scaleY(1); }
 
     .svc-num {
       padding-top: 1.15rem;
@@ -657,7 +657,7 @@
       transition: color 0.4s ease;
     }
 
-    .svc-row:is(:hover, :focus-within) .svc-num { color: var(--accent-ink); }
+    .svc-row:is(:hover, :focus-within, .is-active) .svc-num { color: var(--accent-ink); }
 
     /* Icon tiles: one shape for every block */
     .svc-tiles {
@@ -682,12 +682,12 @@
 
     .svc-tiles .svc-tile + .svc-tile { margin-left: -12px; }
 
-    .svc-row:is(:hover, :focus-within) .svc-tile {
+    .svc-row:is(:hover, :focus-within, .is-active) .svc-tile {
       transform: translateY(-3px);
       box-shadow: 0 16px 30px -16px rgba(0,0,0,0.35);
     }
 
-    .svc-row:is(:hover, :focus-within) .svc-tile + .svc-tile {
+    .svc-row:is(:hover, :focus-within, .is-active) .svc-tile + .svc-tile {
       transform: translate(8px, -3px);
     }
 
@@ -724,17 +724,17 @@
     .logo path { transition: fill 0.45s ease; }
 
     /* Hover: custom icons move, brand logos get their colours */
-    .svc-row:is(:hover, :focus-within) .ic-ux .cursor { transform: translate(-1.8px, -3px); }
-    .svc-row:is(:hover, :focus-within) .ic-ux .btn { transform: scale(0.86); transition-delay: 0.25s; }
-    .svc-row:is(:hover, :focus-within) .ic-tools .k1 { transform: translateX(6px); }
-    .svc-row:is(:hover, :focus-within) .ic-tools .k2 { transform: translateX(-6px); }
-    .svc-row:is(:hover, :focus-within) .ic-tools .k3 { transform: translateX(8px); }
-    .svc-row:is(:hover, :focus-within) .ic-web .web-hero { animation: icBuild 0.7s var(--ease) both; }
-    .svc-row:is(:hover, :focus-within) .ic-web .cols { animation: icBuild 0.7s 0.12s var(--ease) both; }
-    .svc-row:is(:hover, :focus-within) .ic-ai .big { transform: rotate(90deg) scale(1.06); }
-    .svc-row:is(:hover, :focus-within) .ic-ai .s1 { transform: scale(1.35); }
-    .svc-row:is(:hover, :focus-within) .ic-ai .s2 { transform: rotate(90deg); }
-    .svc-row:is(:hover, :focus-within) .logo { transform: scale(1.08); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-ux .cursor { transform: translate(-1.8px, -3px); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-ux .btn { transform: scale(0.86); transition-delay: 0.25s; }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-tools .k1 { transform: translateX(6px); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-tools .k2 { transform: translateX(-6px); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-tools .k3 { transform: translateX(8px); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-web .web-hero { animation: icBuild 0.7s var(--ease) both; }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-web .cols { animation: icBuild 0.7s 0.12s var(--ease) both; }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-ai .big { transform: rotate(90deg) scale(1.06); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-ai .s1 { transform: scale(1.35); }
+    .svc-row:is(:hover, :focus-within, .is-active) .ic-ai .s2 { transform: rotate(90deg); }
+    .svc-row:is(:hover, :focus-within, .is-active) .logo { transform: scale(1.08); }
 
     .ic-web .web-hero,
     .ic-web .cols { transform-origin: left center; }
@@ -744,11 +744,11 @@
       to { transform: scaleX(1); }
     }
 
-    :is(.svc-row:is(:hover, :focus-within), .svc-art) .logo-shopify path { fill: #95BF47; }
-    :is(.svc-row:is(:hover, :focus-within), .svc-art) .logo-meta path { fill: #0081FB; }
-    :is(.svc-row:is(:hover, :focus-within), .svc-art) .logo-gads .g-blue { fill: #4285F4; }
-    :is(.svc-row:is(:hover, :focus-within), .svc-art) .logo-gads .g-yellow { fill: #FBBC04; }
-    :is(.svc-row:is(:hover, :focus-within), .svc-art) .logo-gads .g-green { fill: #34A853; }
+    :is(.svc-row:is(:hover, :focus-within, .is-active), .svc-art) .logo-shopify path { fill: #95BF47; }
+    :is(.svc-row:is(:hover, :focus-within, .is-active), .svc-art) .logo-meta path { fill: #0081FB; }
+    :is(.svc-row:is(:hover, :focus-within, .is-active), .svc-art) .logo-gads .g-blue { fill: #4285F4; }
+    :is(.svc-row:is(:hover, :focus-within, .is-active), .svc-art) .logo-gads .g-yellow { fill: #FBBC04; }
+    :is(.svc-row:is(:hover, :focus-within, .is-active), .svc-art) .logo-gads .g-green { fill: #34A853; }
 
     .svc-title {
       font-size: clamp(1.35rem, 2.1vw, 1.75rem);
@@ -891,9 +891,18 @@
 
     .idea-word {
       display: inline-block;
-      padding: 0;
+      padding: 0 0.08em 0 0;  /* the last letter overhangs with the tight tracking */
       line-height: 1.34em;
       transition: transform 0.45s var(--ease), opacity 0.3s ease;
+    }
+
+    /* same box as the word, so both share one baseline */
+    .idea-q {
+      display: inline-block;
+      vertical-align: bottom;
+      height: 1.34em;
+      line-height: 1.34em;
+      margin-left: 0.05em;
     }
 
     .idea-word.out { transform: translateY(-105%); opacity: 0; }
@@ -3297,7 +3306,7 @@
       <div class="svc-cta svc-reveal">
         <div class="svc-cta-copy">
           <p class="svc-cta-label"><i></i><span data-i18n="servicesCtaText">N&aring;got annat i tankarna?</span></p>
-          <p class="svc-cta-line"><span class="idea-lead" data-i18n="servicesCtaLead">Kanske</span><span class="idea-line"><span class="idea-slot"><span class="idea-word">en offertkalkylator</span></span>?</span></p>
+          <p class="svc-cta-line"><span class="idea-lead" data-i18n="servicesCtaLead">Kanske</span><span class="idea-line"><span class="idea-slot"><span class="idea-word">en offertkalkylator</span></span><span class="idea-q">?</span></span></p>
           <p class="svc-cta-sub" data-i18n="servicesCtaSub">Det mesta som går att beskriva går att bygga. Hör av dig så tar vi fram ett förslag.</p>
           <div class="svc-cta-actions">
             <a href="#contactSection" class="svc-btn svc-btn--primary" data-scroll="contactSection"><span data-i18n="servicesCta">H&ouml;r av dig</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
@@ -3528,7 +3537,7 @@
               </div>
               <div class="tile-foot">
                 <div class="project-name" data-i18n="project6Name">BRAND VAULT</div>
-                <p class="project-desc" data-i18n="project6Desc">AI-driven kreativ studio f&ouml;r att generera annonser och marknadsf&ouml;ringsmaterial samt annonsrapportering fr&aring;n Meta m.m. , med varum&auml;rkesprofiler, stillab och bildarkiv.</p>
+                <p class="project-desc" data-i18n="project6Desc">Spårar annonser korrekt, från klick i Meta och Google till faktiska ordrar i butiken, och använder AI för att optimera kampanjer och annonsmaterial.</p>
                 <div class="project-tags">
                   <span class="tag">React</span>
                   <span class="tag">TypeScript</span>
@@ -3720,7 +3729,7 @@
         project5Desc: 'AI-driven produktfotostudio med Gemini , ladda upp produktbilder, v\u00e4lj stil och generera professionella produktfoton.',
         quote5: 'Kan AI skapa produktfoton som ser professionella ut?',
         project6Name: 'BRAND VAULT',
-        project6Desc: 'AI-driven kreativ studio f\u00f6r att generera annonser och marknadsf\u00f6ringsmaterial samt annonsrapportering fr\u00e5n Meta m.m. , med varum\u00e4rkesprofiler, stillab och bildarkiv.',
+        project6Desc: 'Spårar annonser korrekt, från klick i Meta och Google till faktiska ordrar i butiken, och använder AI för att optimera kampanjer och annonsmaterial.',
         quote6: 'Hur snabbt kan AI skapa en komplett annonskampanj?',
         project7Name: 'PATREON PICKER',
         project7Desc: 'Slumpa vinnare bland kommentarer p\u00e5 Patreon-inl\u00e4gg , importera alla kommentarer direkt och dra vinnare med ett klick.',
@@ -3847,7 +3856,7 @@
         project5Desc: 'AI-powered product photo studio using Gemini , upload product images, choose a style and generate professional product photos.',
         quote5: 'Can AI create product photos that look professional?',
         project6Name: 'BRAND VAULT',
-        project6Desc: 'AI-powered creative studio for generating ads and marketing material plus ad reporting from Meta and more , with brand profiles, style lab and image archive.',
+        project6Desc: 'Tracks ads accurately, from clicks on Meta and Google to actual orders in the store, and uses AI to optimise campaigns and ad creative.',
         quote6: 'How fast can AI build a complete ad campaign?',
         project7Name: 'PATREON PICKER',
         project7Desc: 'Pick random winners from Patreon post comments , import all comments instantly and draw winners with one click.',
@@ -4418,6 +4427,26 @@
       }
 
       window.servicesRelabel = () => { if (slot) showIdea(false); };
+
+      // Touch screens have no hover: the row crossing the middle of the screen lights up instead
+      if (!window.matchMedia('(hover: hover)').matches) {
+        const rows = [...document.querySelectorAll('.svc-row')];
+        let ticking = false;
+        const pickActive = () => {
+          ticking = false;
+          const mid = window.innerHeight / 2;
+          let best = null;
+          for (const row of rows) {
+            const r = row.getBoundingClientRect();
+            if (r.top <= mid && r.bottom > mid) { best = row; break; }
+          }
+          rows.forEach((row) => row.classList.toggle('is-active', row === best));
+        };
+        window.addEventListener('scroll', () => {
+          if (!ticking) { ticking = true; requestAnimationFrame(pickActive); }
+        }, { passive: true });
+        pickActive();
+      }
 
       // rows rise in as they scroll into view
       const items = document.querySelectorAll('.svc-reveal');

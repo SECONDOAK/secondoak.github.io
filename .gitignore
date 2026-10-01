@@ -1,0 +1,17 @@
+# Cloudflare Workers
+.wrangler/
+.dev.vars
+
+# Environment variables
+.env
+.env.local
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local notes with credentials, never commit
+DEPLOYMENT.md
