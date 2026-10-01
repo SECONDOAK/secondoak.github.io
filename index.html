@@ -4756,8 +4756,8 @@
         sparks(18, 1.15, 1.6);
         const later = (ms, fn) => achTimers.push(setTimeout(fn, ms));
         later(500, () => ach.classList.add('is-open'));
-        later(8000, () => ach.classList.remove('is-open'));
-        later(8600, () => ach.classList.remove('is-in'));
+        later(6500, () => ach.classList.remove('is-open'));
+        later(7100, () => ach.classList.remove('is-in'));
       }
 
       function poke() {
