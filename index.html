@@ -397,6 +397,10 @@
       aspect-ratio: 1168 / 1034;
       container-type: inline-size;
       margin: 0 auto 2.5rem;
+      /* rapid taps must never select the photo or open the image menu */
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
       opacity: 0;
       transform: translateY(12px);
       transition: opacity 0.6s ease, transform 0.6s ease;
@@ -413,6 +417,8 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      pointer-events: none;
+      -webkit-user-drag: none;
       filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15));
     }
 
@@ -555,7 +561,7 @@
 
     .about-spark--ink { background: #06315b; }
 
-    /* 100+ clicks, then a pause: an "achievement unlocked" toast. The trophy pops,
+    /* 50+ clicks, then a pause: an "achievement unlocked" toast. The trophy pops,
        the pill opens out of it, holds, folds back and fades */
     .about-ach {
       --ach-w: min(380px, 94cqw);
@@ -639,7 +645,8 @@
       position: absolute;
       left: 72px;
       top: 50%;
-      width: calc(var(--ach-w) - 92px);
+      width: max-content;
+      max-width: calc(var(--ach-w) - 96px);
       translate: 0 -50%;
       display: grid;
       gap: 3px;
@@ -690,6 +697,7 @@
 
     .about-poke {
       cursor: pointer;
+      touch-action: manipulation;  /* no double-tap zoom while tapping fast */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -4676,7 +4684,7 @@
       const counter = aboutPhoto.querySelector('.about-count');
       const counterNum = counter.querySelector('.about-count-num');
       const counterLvl = counter.querySelector('.about-count-lvl');
-      const LEVEL = 50, ACHIEVEMENT = 100;
+      const LEVEL = 50, ACHIEVEMENT = 50;
       let count = 0, countTimer = null, lvlTimer = null;
 
       // One-shot effect element behind the arms, removed when its animation ends
@@ -4727,9 +4735,10 @@
         }, 1400);
       }
 
-      // 100+ clicks and then a pause: "Procrastination Hero" pops up, opens, holds and fades
+      // 50+ clicks and then a pause: "Procrastination Hero" pops up, opens, holds and fades
       const ach = aboutPhoto.querySelector('.about-ach');
       const achSub = ach.querySelector('.about-ach-sub');
+      const achText = ach.querySelector('.about-ach-text');
       let achTimers = [];
       function achievement(n) {
         achTimers.forEach(clearTimeout);
@@ -4737,6 +4746,10 @@
           ? `${n} clicks instead of working`
           : `${n} klick i stället för att jobba`;
         ach.classList.remove('is-in', 'is-open');
+        // The pill opens to fit its text: icon + text + a little air on the right
+        ach.style.removeProperty('--ach-w');
+        const fit = 72 + achText.scrollWidth + 26;
+        ach.style.setProperty('--ach-w', `${Math.min(fit, aboutPhoto.offsetWidth * 0.94)}px`);
         void ach.offsetWidth;
         ach.classList.add('is-in');
         ring(true, 0, 1.4);
