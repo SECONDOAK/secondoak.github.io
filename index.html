@@ -390,6 +390,9 @@
       --push-r: 0;
       --push-l: 0;
       --push-b: 0;
+      --lvl-rgb: 0, 220, 120;  /* level colour: green, then blue, violet, gold and pink as you climb */
+      --spd: 1;                /* aura spin speed, faster each level */
+      --num-grow: 1;
       position: relative;
       display: block;
       width: clamp(400px, 70vw, 700px);
@@ -469,7 +472,7 @@
       left: 49.8%;
       top: 53%;
       translate: -50% -50%;
-      font-size: 9cqw;
+      font-size: calc(9cqw * var(--num-grow));
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.03em;
@@ -484,7 +487,8 @@
       transition-duration: 0.12s;
     }
 
-    /* Level up (every 25 clicks): glowing number, a level tag, a spinning aura, green rings and sparks */
+    /* Level up (every 25 clicks): glowing number, a level tag, a spinning aura, rings and sparks.
+       It all grows with the level: more rings, more sparks, faster spin, new colours */
     .about-count-lvl {
       position: absolute;
       left: 49.8%;
@@ -495,8 +499,8 @@
       font-weight: 600;
       letter-spacing: 0.18em;
       white-space: nowrap;
-      color: #00ff88;
-      text-shadow: 0 0 10px rgba(0, 255, 136, 0.7);
+      color: rgb(var(--lvl-rgb));
+      text-shadow: 0 0 10px rgba(var(--lvl-rgb), 0.7);
       opacity: 0;
       transition: opacity 0.6s ease;
     }
@@ -510,7 +514,7 @@
     }
 
     .about-photo.is-lvl .about-count-num {
-      text-shadow: 0 0 6px rgba(0, 255, 136, 0.9), 0 0 22px rgba(0, 255, 136, 0.6);
+      text-shadow: 0 0 6px rgba(var(--lvl-rgb), 0.9), 0 0 22px rgba(var(--lvl-rgb), 0.6);
     }
 
     .about-aura {
@@ -523,6 +527,7 @@
 
     .about-photo.is-lvl .about-aura { opacity: 1; }
 
+    /* Rings 1-2 from LVL 2, ring 3 from LVL 4, the glowing ring 4 from LVL 6 */
     .about-aura span {
       --s: 1.07;
       position: absolute;
@@ -531,15 +536,31 @@
       width: 72.4%;
       height: 81.8%;
       border-radius: 50%;
-      border: 2px dashed rgba(0, 220, 120, 0.75);
-      animation: auraSpin 10s linear infinite paused;
+      border: 2px dashed rgba(var(--lvl-rgb), 0.75);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: auraSpin calc(10s / var(--spd)) linear infinite paused;
     }
 
-    .about-aura span + span {
+    .about-aura span.on { opacity: 1; }
+
+    .about-aura span:nth-child(2) {
       --s: 1.15;
       border: 1.5px dotted rgba(6, 49, 91, 0.45);
-      animation-duration: 16s;
+      animation-duration: calc(16s / var(--spd));
       animation-direction: reverse;
+    }
+
+    .about-aura span:nth-child(3) {
+      --s: 1.25;
+      border: 3px dotted rgba(var(--lvl-rgb), 0.55);
+      animation-duration: calc(7s / var(--spd));
+    }
+
+    .about-aura span:nth-child(4) {
+      border: 1px solid rgba(var(--lvl-rgb), 0.45);
+      box-shadow: 0 0 22px rgba(var(--lvl-rgb), 0.4), inset 0 0 22px rgba(var(--lvl-rgb), 0.25);
+      animation: auraPulse calc(2.4s / var(--spd)) ease-in-out infinite alternate paused;
     }
 
     .about-photo.is-lvl .about-aura span { animation-play-state: running; }
@@ -549,13 +570,18 @@
       to { transform: scale(var(--s)) rotate(360deg); }
     }
 
+    @keyframes auraPulse {
+      from { transform: scale(1.32); }
+      to { transform: scale(1.4); }
+    }
+
     .about-spark {
       position: absolute;
       left: 49.6%;
       top: 53.7%;
       translate: -50% -50%;
       border-radius: 50%;
-      background: #00dc78;
+      background: rgb(var(--lvl-rgb));
       pointer-events: none;
     }
 
@@ -576,7 +602,7 @@
       overflow: hidden;
       background: #111;
       color: #fff;
-      box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.35), 0 18px 40px rgba(0, 0, 0, 0.28), 0 0 34px rgba(0, 255, 136, 0.25);
+      box-shadow: 0 0 0 1px rgba(var(--lvl-rgb), 0.4), 0 18px 40px rgba(0, 0, 0, 0.28), 0 0 34px rgba(var(--lvl-rgb), 0.28);
       pointer-events: none;
       opacity: 0;
       scale: 0.2;
@@ -619,19 +645,19 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: radial-gradient(circle at 50% 40%, #1d3d2c, #0b1a12 70%);
-      box-shadow: inset 0 0 0 1.5px rgba(0, 255, 136, 0.8), 0 0 16px rgba(0, 255, 136, 0.45);
+      background: radial-gradient(circle at 50% 40%, rgba(var(--lvl-rgb), 0.22), #0b0b0b 70%);
+      box-shadow: inset 0 0 0 1.5px rgba(var(--lvl-rgb), 0.85), 0 0 16px rgba(var(--lvl-rgb), 0.45);
     }
 
     .about-ach-icon svg {
       width: 26px;
       height: 26px;
       fill: none;
-      stroke: #00ff88;
+      stroke: rgb(var(--lvl-rgb));
       stroke-width: 1.7;
       stroke-linecap: round;
       stroke-linejoin: round;
-      filter: drop-shadow(0 0 4px rgba(0, 255, 136, 0.8));
+      filter: drop-shadow(0 0 4px rgba(var(--lvl-rgb), 0.8));
     }
 
     .about-ach.is-in .about-ach-icon { animation: achIcon 0.9s cubic-bezier(0.2, 0.9, 0.3, 1); }
@@ -667,7 +693,7 @@
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.16em;
-      color: #00ff88;
+      color: rgb(var(--lvl-rgb));
     }
 
     .about-ach-title {
@@ -712,7 +738,7 @@
     }
 
     .about-ripple--lvl {
-      border: 3px solid rgba(0, 220, 120, 0.85);
+      border: 3px solid rgba(var(--lvl-rgb), 0.85);
     }
 
     .about-label {
@@ -3656,7 +3682,7 @@
     <div class="about-inner">
       <div class="about-photo" role="img" aria-label="Simon, grundare av Second Oak">
         <img class="about-layer about-layer--circle" src="/Assets/simon-arms/1.webp" alt="" width="1168" height="1034">
-        <span class="about-aura" aria-hidden="true"><span></span><span></span></span>
+        <span class="about-aura" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
         <img class="about-layer about-layer--arms-r" src="/Assets/simon-arms/2.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--arms-l" src="/Assets/simon-arms/3.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--body" src="/Assets/simon-arms/4.webp" alt="" width="1168" height="1034">
@@ -4700,9 +4726,9 @@
       // Click on the person: he, the circle and the arms go back together, then the arms
       // bounce forward on their own looser springs = a short wobble.
       const push = [
-        { prop: '--push-b', pos: 0, vel: 0, k: 260, c: 13, kick: -27, delay: 0 },
-        { prop: '--push-r', pos: 0, vel: 0, k: 170, c: 5, kick: -17, delay: 20 },
-        { prop: '--push-l', pos: 0, vel: 0, k: 150, c: 4.8, kick: -17, delay: 50 },
+        { prop: '--push-b', pos: 0, vel: 0, k: 260, c: 13, kick: -27, delay: 0, pow: 1 },
+        { prop: '--push-r', pos: 0, vel: 0, k: 170, c: 5, kick: -17, delay: 20, pow: 1 },
+        { prop: '--push-l', pos: 0, vel: 0, k: 150, c: 4.8, kick: -17, delay: 50, pow: 1 },
       ];
       let target = LOW, rafId = null, last = 0;
 
@@ -4724,7 +4750,8 @@
         let moving = false;
         const step = (s, to) => {
           if (s.at && now >= s.at) {
-            s.vel = Math.max(s.vel + s.kick, s.kick * 1.5);  // repeated clicks stack, but only so far
+            const kick = s.kick * s.pow;
+            s.vel = Math.max(s.vel + kick, kick * 1.5);  // repeated clicks stack, but only so far
             s.at = 0;
           }
           s.vel += ((to - s.pos) * s.k - s.vel * s.c) * dt;
@@ -4760,14 +4787,37 @@
         return el;
       }
 
-      function ring(lvl, delay = 0, to = 1.22) {
-        fx(lvl ? 'about-ripple about-ripple--lvl' : 'about-ripple',
+      function ring(lvl, delay = 0, to = 1.22, width = 0) {
+        const el = fx(lvl ? 'about-ripple about-ripple--lvl' : 'about-ripple',
           [{ opacity: 0.9, transform: 'scale(0.96)' }, { opacity: 0, transform: `scale(${to})` }],
           { duration: lvl ? 1100 : 900, delay: 40 + delay, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)', fill: 'backwards' });
+        if (width) el.style.borderWidth = width.toFixed(1) + 'px';
       }
 
-      // Sparks leave from the circle's edge and fly outwards
-      function sparks(n, from, to) {
+      // How far up the ladder: 0 at LVL 2, 1 from LVL 10. Every effect scales with it.
+      const grow = (lvl) => Math.min(Math.max((lvl - 2) / 8, 0), 1);
+      const TIERS = ['0, 220, 120', '0, 175, 255', '150, 90, 255', '255, 165, 0', '255, 55, 150'];
+      const auraRings = [...aboutPhoto.querySelectorAll('.about-aura span')];
+      let lookLvl = 1;
+      function setLevelLook(lvl) {
+        if (lvl === lookLvl) return;
+        lookLvl = lvl;
+        aboutPhoto.style.setProperty('--num-grow', (1 + grow(lvl) * 0.25).toFixed(3));
+        if (lvl < 2) return;  // the colour stays for a badge that may still be showing
+        aboutPhoto.style.setProperty('--lvl-rgb', TIERS[Math.min(Math.floor((lvl - 2) / 2), TIERS.length - 1)]);
+        aboutPhoto.style.setProperty('--spd', (1 + grow(lvl) * 1.5).toFixed(2));
+        auraRings.forEach((r, i) => r.classList.toggle('on', i < 2 || (i === 2 && lvl >= 4) || (i === 3 && lvl >= 6)));
+      }
+
+      function shake(p) {
+        const a = 3 + p * 5;
+        const k = [[0, 0], [-a, a * 0.5], [a * 0.8, -a * 0.6], [-a * 0.6, -a * 0.3], [a * 0.4, a * 0.5], [0, 0]];
+        aboutPhoto.animate(k.map(([x, y]) => ({ translate: `${x.toFixed(1)}px ${y.toFixed(1)}px` })),
+          { duration: 450, easing: 'ease-out' });
+      }
+
+      // Sparks leave from the circle's edge and fly outwards (in every colour from LVL 10)
+      function sparks(n, from, to, rainbow = false) {
         const R = aboutPhoto.offsetWidth * 0.362;
         for (let i = 0; i < n; i++) {
           const a = Math.random() * Math.PI * 2, cos = Math.cos(a), sin = Math.sin(a);
@@ -4777,17 +4827,23 @@
             { transform: `translate(${(cos * r1).toFixed(1)}px, ${(sin * r1).toFixed(1)}px) scale(0.2)`, opacity: 0 },
           ], { duration: 700 + Math.random() * 600, delay: Math.random() * 140, easing: 'cubic-bezier(0.15, 0.8, 0.3, 1)', fill: 'backwards' });
           el.style.width = el.style.height = (5 + Math.random() * 6).toFixed(1) + 'px';
+          if (rainbow && !el.classList.contains('about-spark--ink')) {
+            el.style.background = `hsl(${Math.floor(Math.random() * 360)} 90% 55%)`;
+          }
         }
       }
 
       function levelUp(lvl) {
-        [0, 140, 280].forEach((d) => ring(true, d, 1.6));
-        sparks(34, 1.25, 1.75);
+        const p = grow(lvl);
+        const rings = 3 + Math.round(p * 3);
+        for (let i = 0; i < rings; i++) ring(true, i * 120, 1.6 + p * 0.5, 3 + p * 2);
+        sparks(34 + Math.round(p * 60), 1.25, 1.75 + p * 0.65, lvl >= 10);
         circle.animate(
-          [{ filter: 'drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15)) brightness(1.9) saturate(1.4)' },
+          [{ filter: `drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15)) brightness(${(1.9 + p * 0.6).toFixed(2)}) saturate(1.4)` },
            { filter: 'drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15)) brightness(1) saturate(1)' }],
-          { duration: 700, easing: 'ease-out' }
+          { duration: 700 + p * 300, easing: 'ease-out' }
         );
+        if (lvl >= 6) shake(p);
         counterLvl.textContent = 'LEVEL UP!';
         counterLvl.classList.remove('is-flash');
         void counterLvl.offsetWidth;
@@ -4799,13 +4855,17 @@
         }, 1400);
       }
 
-      // A level up and then a pause: "Procrastination Hero" pops up, opens, holds and fades
+      // A level up and then a pause: the achievement pops up, opens, holds and fades.
+      // Its rank follows the level you reached.
       const ach = aboutPhoto.querySelector('.about-ach');
+      const achTitle = ach.querySelector('.about-ach-title');
       const achSub = ach.querySelector('.about-ach-sub');
       const achText = ach.querySelector('.about-ach-text');
       let achTimers = [];
-      function achievement(n) {
+      function achievement(n, lvl) {
         achTimers.forEach(clearTimeout);
+        achTitle.textContent = lvl >= 10 ? 'Procrastination Overlord'
+          : lvl >= 5 ? 'Procrastination Legend' : 'Procrastination Hero';
         achSub.textContent = document.documentElement.lang === 'en'
           ? `${n} clicks instead of working`
           : `${n} klick i stället för att jobba`;
@@ -4816,8 +4876,10 @@
         ach.style.setProperty('--ach-w', `${Math.min(fit, aboutPhoto.offsetWidth * 0.94)}px`);
         void ach.offsetWidth;
         ach.classList.add('is-in');
-        ring(true, 0, 1.4);
-        sparks(18, 1.15, 1.6);
+        const p = grow(lvl);
+        ring(true, 0, 1.4 + p * 0.3);
+        if (p > 0) ring(true, 160, 1.6 + p * 0.3);
+        sparks(18 + Math.round(p * 30), 1.15, 1.6 + p * 0.4, lvl >= 10);
         const later = (ms, fn) => achTimers.push(setTimeout(fn, ms));
         later(500, () => ach.classList.add('is-open'));
         later(6500, () => ach.classList.remove('is-open'));
@@ -4825,15 +4887,19 @@
       }
 
       function poke() {
-        const now = performance.now();
-        push.forEach((s) => { s.at = now + s.delay; });
-        if (!rafId) rafId = requestAnimationFrame(tick);
-
         // Counts every click; 3 s without one and it fades out and starts over from 1.
         // Every 25 clicks is a level up, and from then on each click hits harder.
         count += 1;
         const lvl = Math.floor(count / LEVEL) + 1;
         const levelled = count % LEVEL === 0;
+        const p = grow(lvl);
+        setLevelLook(lvl);
+
+        const now = performance.now();
+        const pow = lvl > 1 ? 1 + p * 0.6 : 1;  // he gets bouncier as well
+        push.forEach((s) => { s.at = now + s.delay; s.pow = pow; });
+        if (!rafId) rafId = requestAnimationFrame(tick);
+
         counterNum.textContent = count;
         counter.classList.add('is-on');
         aboutPhoto.classList.toggle('is-lvl', lvl > 1);
@@ -4845,12 +4911,17 @@
         countTimer = setTimeout(() => {
           counter.classList.remove('is-on');
           aboutPhoto.classList.remove('is-lvl');
-          if (count >= ACHIEVEMENT) achievement(count);
+          if (count >= ACHIEVEMENT) achievement(count, Math.floor(count / LEVEL) + 1);
           count = 0;
         }, 3000);
 
         if (levelled) levelUp(lvl);
-        else if (lvl > 1) { ring(true); ring(true, 120, 1.35); sparks(6, 1.1, 1.4); }
+        else if (lvl > 1) {
+          ring(true);
+          ring(true, 120, 1.35 + p * 0.15);
+          if (p >= 0.5) ring(true, 240, 1.5 + p * 0.2);
+          sparks(6 + Math.round(p * 10), 1.1, 1.4 + p * 0.35, lvl >= 10);
+        }
         else ring(false);
       }
 
