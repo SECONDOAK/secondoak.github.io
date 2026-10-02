@@ -484,7 +484,7 @@
       transition-duration: 0.12s;
     }
 
-    /* Level up (every 50 clicks): glowing number, a level tag, a spinning aura, green rings and sparks */
+    /* Level up (every 25 clicks): glowing number, a level tag, a spinning aura, green rings and sparks */
     .about-count-lvl {
       position: absolute;
       left: 49.8%;
@@ -561,7 +561,7 @@
 
     .about-spark--ink { background: #06315b; }
 
-    /* 50+ clicks, then a pause: an "achievement unlocked" toast. The trophy pops,
+    /* A level up, then a pause: an "achievement unlocked" toast. The trophy pops,
        the pill opens out of it, holds, folds back and fades */
     .about-ach {
       --ach-w: min(380px, 94cqw);
@@ -880,10 +880,74 @@
       transition: color 0.8s ease;
     }
 
+    /* Head entrance, in order: the label tracks in, the title's words rise out of the line
+       one by one, the intro comes into focus and the rule below draws out from the centre */
+    .services-head.svc-reveal { opacity: 1; transform: none; }
+
+    .services-label {
+      opacity: 0;
+      letter-spacing: 0.9em;
+      transition: color 0.8s ease, opacity 0.9s var(--ease), letter-spacing 1.1s var(--ease);
+    }
+
+    .services-head.in .services-label {
+      opacity: 1;
+      letter-spacing: 0.3em;
+    }
+
+    .services-title .sw {
+      display: inline-block;
+      clip-path: inset(-0.3em -0.2em -0.16em -0.2em);
+    }
+
+    .services-title .swi {
+      display: inline-block;
+      transform: translateY(115%) rotate(7deg);
+      transform-origin: 0% 100%;
+      transition: transform 1s var(--ease);
+      transition-delay: calc(0.15s + var(--i) * 0.075s);
+    }
+
+    .services-head.in .services-title .swi { transform: none; }
+
+    .services-intro {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(6px);
+      transition: color 0.8s ease, opacity 1s var(--ease) var(--intro-delay, 0.6s),
+        transform 1s var(--ease) var(--intro-delay, 0.6s), filter 1s var(--ease) var(--intro-delay, 0.6s);
+    }
+
+    .services-head.in .services-intro {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+
     .services-list {
+      position: relative;
       list-style: none;
-      border-top: 1px solid var(--line);
-      transition: border-color 0.8s ease;
+    }
+
+    .services-list::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -1px;
+      height: 1px;
+      background: var(--line);
+      transform: scaleX(0);
+      transition: background-color 0.8s ease, transform 1.4s var(--ease) calc(var(--intro-delay, 0.6s) + 0.15s);
+    }
+
+    .services-head.in + .services-list::before { transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .services-label,
+      .services-title .swi,
+      .services-intro,
+      .services-list::before { transition: none; }
     }
 
     .svc-row {
@@ -4684,7 +4748,7 @@
       const counter = aboutPhoto.querySelector('.about-count');
       const counterNum = counter.querySelector('.about-count-num');
       const counterLvl = counter.querySelector('.about-count-lvl');
-      const LEVEL = 50, ACHIEVEMENT = 50;
+      const LEVEL = 25, ACHIEVEMENT = LEVEL;  // the badge needs at least one level up
       let count = 0, countTimer = null, lvlTimer = null;
 
       // One-shot effect element behind the arms, removed when its animation ends
@@ -4735,7 +4799,7 @@
         }, 1400);
       }
 
-      // 50+ clicks and then a pause: "Procrastination Hero" pops up, opens, holds and fades
+      // A level up and then a pause: "Procrastination Hero" pops up, opens, holds and fades
       const ach = aboutPhoto.querySelector('.about-ach');
       const achSub = ach.querySelector('.about-ach-sub');
       const achText = ach.querySelector('.about-ach-text');
@@ -4766,7 +4830,7 @@
         if (!rafId) rafId = requestAnimationFrame(tick);
 
         // Counts every click; 3 s without one and it fades out and starts over from 1.
-        // Every 50 clicks is a level up, and from then on each click hits harder.
+        // Every 25 clicks is a level up, and from then on each click hits harder.
         count += 1;
         const lvl = Math.floor(count / LEVEL) + 1;
         const levelled = count % LEVEL === 0;
@@ -4974,7 +5038,34 @@
         if (document.fonts) document.fonts.ready.then(fitSlot);
       }
 
-      window.servicesRelabel = () => { if (slot) showIdea(false); };
+      // Title words get their own masks so they can rise out of the line one by one.
+      // Re-run after a language switch, which puts plain text back in the heading.
+      const svcHead = document.querySelector('.services-head');
+      function splitTitle() {
+        const h = svcHead && svcHead.querySelector('.services-title');
+        if (!h) return;
+        const text = h.textContent.trim();
+        h.setAttribute('aria-label', text);
+        h.textContent = '';
+        const words = text.split(/\s+/);
+        words.forEach((w, i) => {
+          const outer = document.createElement('span');
+          outer.className = 'sw';
+          outer.setAttribute('aria-hidden', 'true');
+          const inner = document.createElement('span');
+          inner.className = 'swi';
+          inner.style.setProperty('--i', i);
+          inner.textContent = w;
+          outer.append(inner);
+          h.append(outer);
+          if (i < words.length - 1) h.append(' ');
+        });
+        // the intro follows right after the last word has started
+        svcHead.style.setProperty('--intro-delay', `${(0.15 + words.length * 0.075 + 0.25).toFixed(2)}s`);
+      }
+      splitTitle();
+
+      window.servicesRelabel = () => { if (slot) showIdea(false); splitTitle(); };
 
       // Touch screens have no hover: the row crossing the middle of the screen lights up instead
       if (!window.matchMedia('(hover: hover)').matches) {
