@@ -453,6 +453,7 @@
     /* The body is cut along the circle's lower edge, so the two always share one transform:
        they shrink back together around the circle's centre and he never slips out of it */
     .about-layer--body,
+    .about-layer--arrow,
     .about-layer--circle,
     .about-count,
     .about-aura {
@@ -708,6 +709,21 @@
       color: rgba(255, 255, 255, 0.6);
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* The cursor printed on his shirt is a hint: it only shows when clicking does
+       something, and makes way for the number while counting */
+    .about-layer--arrow {
+      filter: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .about-photo.can-poke .about-layer--arrow { opacity: 1; }
+
+    .about-photo.can-poke.is-counting .about-layer--arrow {
+      opacity: 0;
+      transition-duration: 0.12s;
     }
 
     /* Click target and pressure ring share the circle's box */
@@ -3686,6 +3702,7 @@
         <img class="about-layer about-layer--arms-r" src="/Assets/simon-arms/2.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--arms-l" src="/Assets/simon-arms/3.webp" alt="" width="1168" height="1034">
         <img class="about-layer about-layer--body" src="/Assets/simon-arms/4.webp" alt="" width="1168" height="1034">
+        <img class="about-layer about-layer--arrow" src="/Assets/simon-arms/arrow.webp" alt="" width="1168" height="1034">
         <span class="about-count" aria-hidden="true"><span class="about-count-num"></span><span class="about-count-lvl"></span></span>
         <span class="about-poke" aria-hidden="true"></span>
         <span class="about-ach" aria-hidden="true">
@@ -4902,6 +4919,7 @@
 
         counterNum.textContent = count;
         counter.classList.add('is-on');
+        aboutPhoto.classList.add('is-counting');
         aboutPhoto.classList.toggle('is-lvl', lvl > 1);
         counterNum.animate(
           [{ transform: `scale(${levelled ? 1.9 : 1.4})` }, { transform: 'scale(1)' }],
@@ -4910,7 +4928,7 @@
         clearTimeout(countTimer);
         countTimer = setTimeout(() => {
           counter.classList.remove('is-on');
-          aboutPhoto.classList.remove('is-lvl');
+          aboutPhoto.classList.remove('is-lvl', 'is-counting');
           if (count >= ACHIEVEMENT) achievement(count, Math.floor(count / LEVEL) + 1);
           count = 0;
         }, 3000);
@@ -4927,6 +4945,7 @@
 
       // Mouse reacts on press; touch waits for a tap so scrolling over the photo never pokes him
       const hit = aboutPhoto.querySelector('.about-poke');
+      aboutPhoto.classList.add('can-poke');
       let lastMouse = 0;
       hit.addEventListener('pointerdown', (e) => {
         if (e.pointerType !== 'mouse' || e.button !== 0) return;
