@@ -238,6 +238,34 @@
       .k-marker { cursor: grab; }
       .k-marker:active { cursor: grabbing; }
 
+      /* Pin info popup */
+      .k-popup .leaflet-popup-content-wrapper {
+        background: rgb(var(--panel));
+        color: rgb(var(--fg));
+        border-radius: 12px;
+        padding: 0;
+        box-shadow: var(--shadow-pop);
+      }
+      .k-popup .leaflet-popup-content { margin: 0; width: 272px !important; font: 13px/1.4 'Geist', ui-sans-serif, system-ui, sans-serif; }
+      .k-popup .leaflet-popup-tip { background: rgb(var(--panel)); box-shadow: none; }
+      .k-popup a.leaflet-popup-close-button { top: 10px; right: 8px; width: 24px; height: 24px; font: 400 18px/22px 'Geist', sans-serif; color: rgb(var(--fg-faint)); border-radius: 6px; }
+      .k-popup a.leaflet-popup-close-button:hover { color: rgb(var(--fg)); background: rgb(var(--hover)); }
+      .kp-head { display: flex; gap: 10px; align-items: flex-start; padding: 14px 40px 10px 14px; }
+      .kp-badge { flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px; background: rgb(var(--accent)); color: #fff; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+      .kp-title { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+      .kp-sub { color: rgb(var(--fg-muted)); font-size: 12.5px; }
+      .kp-rows, .kp-coords { border-top: 1px solid rgb(var(--line)); padding: 6px 14px; }
+      .kp-coords { background: rgb(var(--subtle)); }
+      .kp-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+      .kp-k { color: rgb(var(--fg-muted)); font-size: 12px; flex-shrink: 0; }
+      .kp-v { text-align: right; font-size: 12.5px; word-break: break-word; }
+      .kp-mono { font-family: 'Geist Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+      .kp-actions { display: flex; gap: 6px; padding: 10px 12px 12px; border-top: 1px solid rgb(var(--line)); }
+      .kp-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; height: 32px; border-radius: 8px; font: 500 12.5px 'Geist', sans-serif; cursor: pointer; border: 1px solid rgb(var(--line)); background: rgb(var(--panel)); color: rgb(var(--fg)) !important; text-decoration: none; transition: background 0.15s; }
+      .kp-btn:hover { background: rgb(var(--subtle)); }
+      .kp-primary { background: rgb(var(--accent)); border-color: transparent; color: #fff !important; }
+      .kp-primary:hover { background: rgb(var(--accent) / 0.9); }
+
       /* Map element visibility filters */
       .hide-markers .mk-pin,
       .hide-markers .mk-cross { display: none !important; }
@@ -255,7 +283,7 @@
       }
     }
     </script>
-  <script type="module" crossorigin src="/koordinator/assets/index-CDT7Lk5L.js"></script>
+  <script type="module" crossorigin src="/koordinator/assets/index-DUDmpvDU.js"></script>
 </head>
   <body>
     <div id="root"></div>
