@@ -19,68 +19,224 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://secondoak.se/koordinator/" />
     <link rel="canonical" href="https://secondoak.se/koordinator/" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2318181b'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M16 4.5v5M16 22.5v5M4.5 16h5M22.5 16h5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23e5484d'/%3E%3C/svg%3E" />
+
+    <!-- Theme is resolved before first paint so there is no flash -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('koordinator-theme');
+          var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+            },
+            colors: {
+              canvas: 'rgb(var(--canvas) / <alpha-value>)',
+              panel: 'rgb(var(--panel) / <alpha-value>)',
+              subtle: 'rgb(var(--subtle) / <alpha-value>)',
+              hover: 'rgb(var(--hover) / <alpha-value>)',
+              line: 'rgb(var(--line) / <alpha-value>)',
+              'line-strong': 'rgb(var(--line-strong) / <alpha-value>)',
+              fg: 'rgb(var(--fg) / <alpha-value>)',
+              'fg-muted': 'rgb(var(--fg-muted) / <alpha-value>)',
+              'fg-faint': 'rgb(var(--fg-faint) / <alpha-value>)',
+              accent: 'rgb(var(--accent) / <alpha-value>)',
+              route: 'rgb(var(--route) / <alpha-value>)',
+              verified: 'rgb(var(--verified) / <alpha-value>)',
+            },
+            boxShadow: {
+              card: 'var(--shadow-card)',
+              pop: 'var(--shadow-pop)',
+              float: 'var(--shadow-float)',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+      /* ── Design tokens ─────────────────────────────────────────────── */
+      :root {
+        --canvas: 241 241 243;
+        --panel: 255 255 255;
+        --subtle: 244 244 245;
+        --hover: 238 238 240;
+        --line: 230 230 233;
+        --line-strong: 212 212 216;
+        --fg: 24 24 27;
+        --fg-muted: 98 98 106;
+        --fg-faint: 152 152 160;
+        --accent: 229 72 77;
+        --route: 47 111 235;
+        --verified: 24 128 86;
+        --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04);
+        --shadow-pop: 0 12px 32px -8px rgb(0 0 0 / 0.16), 0 0 0 1px rgb(0 0 0 / 0.05);
+        --shadow-float: 0 4px 14px -2px rgb(0 0 0 / 0.14), 0 0 0 1px rgb(0 0 0 / 0.06);
+        color-scheme: light;
+      }
+      .dark {
+        --canvas: 9 9 11;
+        --panel: 17 17 19;
+        --subtle: 25 25 28;
+        --hover: 33 33 37;
+        --line: 37 37 41;
+        --line-strong: 54 54 60;
+        --fg: 237 237 239;
+        --fg-muted: 160 160 168;
+        --fg-faint: 108 108 116;
+        --accent: 236 93 98;
+        --route: 92 145 247;
+        --verified: 74 196 140;
+        --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3);
+        --shadow-pop: 0 16px 40px -8px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(255 255 255 / 0.07);
+        --shadow-float: 0 4px 16px -2px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.08);
+        color-scheme: dark;
+      }
+
+      html, body { height: 100%; }
       body {
         margin: 0;
-        padding: 0;
-        background-color: #000;
-        color: #fff;
-        font-family: 'Inter', sans-serif;
+        background: rgb(var(--canvas));
+        color: rgb(var(--fg));
+        font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: 'ss01', 'cv11';
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
+      ::selection { background: rgb(var(--accent) / 0.2); }
+      .tnum { font-variant-numeric: tabular-nums; }
 
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0a0a0a; 
-      }
+      /* Scrollbars — thin and quiet */
+      * { scrollbar-width: thin; scrollbar-color: rgb(var(--line-strong)) transparent; }
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb {
-        background: #333; 
+        background: rgb(var(--line-strong));
+        border-radius: 999px;
+        border: 3px solid transparent;
+        background-clip: content-box;
+      }
+
+      /* Focus — one consistent ring everywhere */
+      :focus { outline: none; }
+      :focus-visible {
+        outline: 2px solid rgb(var(--fg) / 0.7);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+
+      /* Search hero — a calm single-hue accent wash, opaque so cards never show through while sticky */
+      .search-hero {
+        background:
+          linear-gradient(rgb(var(--accent) / 0.075), rgb(var(--accent) / 0.035)),
+          rgb(var(--panel));
+      }
+
+      /* ── Motion ─────────────────────────────────────────────────────── */
+      @keyframes k-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+      @keyframes k-pop { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
+      @keyframes k-fade { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes k-toast { from { opacity: 0; transform: translate(-50%, 8px) scale(0.98); } to { opacity: 1; transform: translate(-50%, 0); } }
+      @keyframes k-spin { to { transform: rotate(360deg); } }
+      @keyframes k-progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+      @keyframes k-shimmer { 0% { background-position: -200px 0; } 100% { background-position: 200px 0; } }
+      .anim-enter { animation: k-enter 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+      .anim-pop { animation: k-pop 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: top; }
+      .anim-fade { animation: k-fade 0.2s ease both; }
+      .anim-toast { animation: k-toast 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+      .spinner {
+        width: 16px; height: 16px; border-radius: 999px;
+        border: 2px solid rgb(var(--fg) / 0.15);
+        border-top-color: rgb(var(--fg) / 0.75);
+        animation: k-spin 0.7s linear infinite;
+      }
+      .spinner-current { border-color: currentColor; border-right-color: transparent; opacity: 0.85; }
+      .progress-bar { position: absolute; inset: 0 auto 0 0; width: 40%; background: rgb(var(--accent)); animation: k-progress 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+      .skeleton {
         border-radius: 4px;
+        background: linear-gradient(90deg, rgb(var(--subtle)) 0px, rgb(var(--hover)) 80px, rgb(var(--subtle)) 160px);
+        background-size: 400px 100%;
+        animation: k-shimmer 1.2s linear infinite;
       }
-      
-      @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-      }
-      .blink {
-        animation: blink 1.5s infinite;
-      }
-      
-      /* Leaflet overrides for tactical look */
-
-      /* divIcon reset — prevent Leaflet's default white-background box */
-      .leaflet-div-icon {
-        background: transparent !important;
-        border: none !important;
-        overflow: visible !important;
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
       }
 
-      .leaflet-popup-content-wrapper {
-        background: rgba(0, 0, 0, 0.9) !important;
-        color: #fff !important;
-        border: 1px solid #ef4444;
-        border-radius: 2px;
-        font-family: 'Share Tech Mono', monospace;
+      /* ── Tooltips (data-tip) ───────────────────────────────────────── */
+      [data-tip] { position: relative; }
+      [data-tip]::after {
+        content: attr(data-tip);
+        position: absolute;
+        z-index: 60;
+        top: calc(100% + 6px);
+        left: 50%;
+        transform: translate(-50%, -2px);
+        padding: 5px 8px;
+        border-radius: 6px;
+        background: rgb(24 24 27);
+        color: rgb(250 250 250);
+        font: 500 11.5px/1.2 'Geist', ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: 0;
+        text-transform: none;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.12s ease, transform 0.12s ease;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 0.18);
       }
-      .leaflet-popup-tip {
-        background: #ef4444 !important;
+      .dark [data-tip]::after { background: rgb(250 250 250); color: rgb(24 24 27); }
+      [data-tip][data-tip-pos="left"]::after { top: 50%; left: auto; right: calc(100% + 8px); transform: translate(2px, -50%); }
+      [data-tip][data-tip-pos="top"]::after { top: auto; bottom: calc(100% + 6px); transform: translate(-50%, 2px); }
+      [data-tip][data-tip-align="end"]::after { left: auto; right: 0; transform: translateY(-2px); }
+      [data-tip][data-tip-wrap]::after { white-space: normal; width: 240px; left: 0; transform: translateY(-2px); line-height: 1.45; padding: 7px 9px; }
+      @media (hover: hover) {
+        [data-tip][data-tip-wrap]:hover::after { transform: none; }
+        [data-tip]:hover::after { opacity: 1; transform: translate(-50%, 0); transition-delay: 0.35s; }
+        [data-tip][data-tip-pos="left"]:hover::after { transform: translate(0, -50%); }
+        [data-tip][data-tip-pos="top"]:hover::after { transform: translate(-50%, 0); }
+        [data-tip][data-tip-align="end"]:hover::after { transform: none; }
       }
+
+      /* ── Leaflet ────────────────────────────────────────────────────── */
       .leaflet-container {
-        background: #111;
+        background: rgb(var(--subtle));
+        font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+        outline: none;
       }
-
-      /* High contrast filter for tactical map tiles */
-      .high-contrast-tiles {
-        filter: brightness(1.3) contrast(1.2);
+      .leaflet-div-icon { background: transparent !important; border: none !important; overflow: visible !important; }
+      .leaflet-control-scale { margin: 0 0 12px 12px !important; }
+      .leaflet-control-scale-line {
+        background: rgb(var(--panel) / 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgb(var(--fg) / 0.35);
+        border-top: none;
+        color: rgb(var(--fg));
+        font: 500 10.5px/1.5 'Geist Mono', ui-monospace, monospace;
+        padding: 1px 6px 0;
       }
+      .k-marker { cursor: grab; }
+      .k-marker:active { cursor: grabbing; }
 
       /* Map element visibility filters */
       .hide-markers .mk-pin,
@@ -90,7 +246,6 @@
       .hide-minimap .minimap-container { display: none !important; }
     </style>
 
-  <link rel="stylesheet" href="/index.css">
     <script type="importmap">
     {
       "imports": {
@@ -100,7 +255,7 @@
       }
     }
     </script>
-  <script type="module" crossorigin src="/koordinator/assets/index-C0ZJRZ6M.js"></script>
+  <script type="module" crossorigin src="/koordinator/assets/index-CDT7Lk5L.js"></script>
 </head>
   <body>
     <div id="root"></div>
