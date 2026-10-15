@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="15" fill="#134e85"/>
-  <text x="27" y="46" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" fill="#ffffff" text-anchor="middle">R</text>
+  <text x="27" y="46" font-family="'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" fill="#ffffff" text-anchor="middle">R</text>
   <circle cx="47" cy="22" r="6" fill="none" stroke="#ffffff" stroke-width="3.5"/>
 </svg>
