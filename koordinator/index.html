@@ -246,6 +246,8 @@
         color: rgb(var(--fg));
         font: 500 10.5px/1.5 'Geist Mono', ui-monospace, monospace;
         padding: 1px 6px 0;
+        /* Leaflet adds a white 1px shadow, which doubles the text on a dark bar */
+        text-shadow: none;
       }
       .k-marker { cursor: grab; }
       .k-marker:active { cursor: grabbing; }
