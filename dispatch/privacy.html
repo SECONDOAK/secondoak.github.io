@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Dispatch by Second Oak</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif; background: #111113; color: #f5f5f7; line-height: 1.65; }
+    .container { max-width: 720px; margin: 0 auto; padding: 72px 24px 80px; }
+    h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .subtitle { font-size: 0.85rem; color: #636366; margin-bottom: 40px; }
+    h2 { font-size: 1.1rem; font-weight: 600; margin: 36px 0 10px; }
+    p, li { font-size: 0.95rem; color: #a1a1a6; margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-bottom: 14px; }
+    a { color: #2997ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.82rem; color: #636366; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">Dispatch by Second Oak &mdash; Last updated: November 4, 2026</p>
+
+    <h2>1. About Dispatch</h2>
+    <p>Dispatch is a private mail client operated by Second Oak (<a href="/dispatch/">secondoak.se/dispatch</a>). It helps its owner read, translate and answer customer mail. Access to the app is restricted to its owner through Cloudflare Access; it is not available to the public.</p>
+
+    <h2>2. Data Dispatch accesses</h2>
+    <ul>
+      <li><strong>Google account data:</strong> When the owner connects a Gmail account, Dispatch requests permission to read messages, modify labels (mark as read, archive), send replies on the owner's command, and read the account's email address and send-as signature.</li>
+      <li><strong>Microsoft account data:</strong> The same permissions for an Outlook / Microsoft 365 mailbox, if one is connected.</li>
+      <li><strong>Store data:</strong> Read-only order, product and policy data from the business's own Shopify store, used to answer customer questions.</li>
+    </ul>
+
+    <h2>3. How the data is used</h2>
+    <ul>
+      <li>To show the inbox and threads to the owner.</li>
+      <li>To produce summaries, translations and reply drafts with Anthropic's Claude API. Message content is sent to the API for that purpose only.</li>
+      <li>To send a reply when the owner presses Send. Dispatch never sends mail automatically.</li>
+      <li>To record whether a sent reply was opened, through a tracking image in the outgoing message, when the owner has that setting turned on.</li>
+    </ul>
+    <p>Dispatch's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements. Google user data is used only to provide the features above to the owner. It is not sold, not used for advertising, not used to train AI models, and not read by humans except at the owner's request, for security, or to comply with the law.</p>
+
+    <h2>4. Storage and security</h2>
+    <ul>
+      <li>Messages stay in the mail provider. Dispatch stores only what it needs to work: reply drafts, summaries, the owner's settings, a knowledge base built from the business's public website, and open-tracking counts.</li>
+      <li>This data is stored in a Cloudflare D1 database in the EU region. Mail account access tokens are encrypted (AES-GCM) before they are stored and are never sent to the browser.</li>
+      <li>All traffic uses HTTPS.</li>
+    </ul>
+
+    <h2>5. Third parties</h2>
+    <ul>
+      <li><strong>Cloudflare</strong> hosts the app and its database and handles sign-in. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy Policy</a>.</li>
+      <li><strong>Anthropic</strong> processes message content to produce drafts and translations. <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic Privacy Policy</a>.</li>
+      <li><strong>Google, Microsoft and Shopify</strong> provide the connected mailboxes and store data.</li>
+    </ul>
+    <p>No data is shared with anyone else.</p>
+
+    <h2>6. Retention and deletion</h2>
+    <p>Drafts and summaries are kept while the thread is in use. Disconnecting an account in Dispatch's settings deletes its stored tokens. Access can also be revoked at any time from the <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google account permissions page</a>. To have all stored data deleted, contact us.</p>
+
+    <h2>7. Contact</h2>
+    <p><a href="mailto:hello@secondoak.se">hello@secondoak.se</a></p>
+
+    <p class="footer">&copy; 2026 Second Oak.</p>
+  </div>
+</body>
+</html>
