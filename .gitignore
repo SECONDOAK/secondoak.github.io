@@ -15,3 +15,6 @@ Thumbs.db
 
 # Local notes with credentials, never commit
 DEPLOYMENT.md
+
+# Catch-prototyp: källfiler och lösenord (bara krypterad build i catch/ committas)
+catch-src/
