@@ -225,6 +225,18 @@
       body.light-theme .hover\:border-slate-700:hover { border-color: #d1d5db !important; }
       body.light-theme .hover\:text-white:hover { color: #111827 !important; }
 
+      /* Hub entry cards: lift off the light background */
+      body.light-theme .hub-card { box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px -8px rgba(15,23,42,.12); }
+      body.light-theme .hub-card:hover { background-color: #ffffff !important; border-color: #d1d5db !important; box-shadow: 0 2px 4px rgba(15,23,42,.05), 0 18px 40px -12px rgba(15,23,42,.22); transform: translateY(-2px); }
+      body.light-theme .hub-card .w-12 { box-shadow: inset 0 0 0 1px rgba(15,23,42,.05); }
+
+      /* Price Lists app: cards and panels get the same soft lift */
+      body.light-theme .pl-app .rounded-2xl.border:not(.border-dashed) { box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 6px 20px -8px rgba(15,23,42,.10); }
+      body.light-theme .pl-app .agent-reply { box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 4px 14px -6px rgba(15,23,42,.08); }
+      body.light-theme .pl-app .agent-cost { box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 4px 14px -6px rgba(15,23,42,.08); }
+      body.light-theme .pl-app .agent-composer:focus-within { box-shadow: 0 1px 2px rgba(15,23,42,.05), 0 10px 28px -10px rgba(15,23,42,.18); }
+      body.light-theme .pl-app button.rounded-2xl.border:hover { background-color: #ffffff !important; box-shadow: 0 2px 4px rgba(15,23,42,.05), 0 14px 32px -12px rgba(15,23,42,.18); }
+
       /* Group hover */
       body.light-theme .group:hover .group-hover\:bg-slate-700 { background-color: #e5e7eb !important; }
 
@@ -251,7 +263,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/creative-hub/app/assets/index-D4_Cw2H7.js"></script>
+  <script type="module" crossorigin src="/creative-hub/app/assets/index-Z4pcT9Rd.js"></script>
 </head>
   <body class="bg-slate-950 text-slate-50 antialiased">
     <div id="root"></div>
